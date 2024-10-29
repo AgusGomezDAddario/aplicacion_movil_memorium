@@ -184,25 +184,25 @@ import Toast from 'react-native-root-toast';
             </Text>
           </TouchableOpacity>
 
-          {/* <TouchableOpacity
-          onPress={() => showToast1()}
-            style={{
-              padding: Spacing * 3,
-              backgroundColor: Colors.second_gray,
-              marginVertical: Spacing * 4,
-              borderRadius: Spacing,
-              shadowColor: Colors.gray,
-              shadowOffset: {
-                width: 0,
-                height: Spacing,
-              },
-              shadowOpacity: 0.3,
-              shadowRadius: Spacing,
-              display:"flex",
-              flexDirection:"row",
-              justifyContent:"flex-start",
-              alignItems:"center",
-            }}
+          <TouchableOpacity
+          onPress={() => navigate("InstruccionesJuego5")}
+          style={{
+            padding: Spacing * 3,
+            backgroundColor: Colors.second_gray,
+            marginVertical: Spacing * 4,
+            borderRadius: Spacing,
+            shadowColor: Colors.gray,
+            shadowOffset: {
+              width: 0,
+              height: Spacing,
+            },
+            shadowOpacity: 0.3,
+            shadowRadius: Spacing,
+            display:"flex",
+            flexDirection:"row",
+            justifyContent:"flex-start",
+            alignItems:"center",
+          }}
           >
             <Ionicons
                   name="lock-closed"
@@ -219,9 +219,9 @@ import Toast from 'react-native-root-toast';
                 paddingLeft:Spacing*6,
               }}
             >
-              Juego 3
+              Juego 5
             </Text>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
           <View style={styles.buttonContainer_Boton}>
           <TouchableOpacity
             onPress={() => navigate("Information")}

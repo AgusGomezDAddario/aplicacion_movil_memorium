@@ -26,12 +26,14 @@ export type RootStackParamList = {
   InstruccionesJuego2: undefined;
   InstruccionesJuego1: undefined;
   InstruccionesJuego3: undefined;
+  InstruccionesJuego5: undefined;
   InstruccionesJuegoOrderium: undefined;
   EstadisticasJuego1: undefined;
   ForgotPassword: undefined;
   NumberGame:undefined;
   GonoGoGame:undefined;
   OrderiumGame:undefined;
+  AbecedarioGame:undefined;
   Information:undefined;
   Tutorial1:undefined;
   InformationJuego1:undefined;
