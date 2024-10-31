@@ -51,7 +51,7 @@ const InstruccionesJuego5Screen= ({ navigation: { navigate } }) => {
                             paddingTop: Spacing * 2,
                         }}
                     >
-                       Se te mostrara una palabra junto a 4 opciones de respuesta posibles y deberas seleccionar la respuesta cuyo significado es lo contrario a la palabra inicial
+                       Se te mostrara una palabra sobre la cual deberas poner en cada casillero de abajo la siguiente letra en el abecedario de la letra que corresponde a ese casillero en la palabra.
                     </Text>
                     <View style={styles.buttonContainer_Boton}>
                     <SoundComponent juego={"go_no_go"}/>
@@ -90,7 +90,7 @@ const InstruccionesJuego5Screen= ({ navigation: { navigate } }) => {
                 <View>
             
             <TouchableOpacity
-                        onPress={() => navigate("TutorialGoNoGo")}
+                        onPress={() => navigate("TutorialAbecedarium")}
                         style={{
                             padding: Spacing * 2,
                             backgroundColor: Colors.primary,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import {
   Text,
   TouchableOpacity,
@@ -9,19 +9,29 @@ import {
   StyleSheet,
   Dimensions
 } from "react-native";
+import { ScoreContext } from "./../context/ScoreContext";
 import Toast from 'react-native-root-toast';
 import wordsData from './../Similar/wordsData.json';
+import ModalAbecedarium from "./ModalAbecedarium";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../types";
+import Colors from "./../constants/Color";
+import { showErrorCSS } from "react-native-svg/lib/typescript/deprecated";
+
+type Props = NativeStackScreenProps<RootStackParamList, "AbecedarioGame">;
 
 const { height, width } = Dimensions.get("window");
 
-const AbecedarioGame: React.FC = () => {
+const AbecedarioGame: React.FC<Props> = ({ navigation }) => {
     const [currentWord, setCurrentWord] = useState<string>('');
     const [userInput, setUserInput] = useState<string[]>([]);
     const [feedback, setFeedback] = useState<string[]>([]);
     const [attempts, setAttempts] = useState<number>(0);
     const [errorsPerLetter, setErrorsPerLetter] = useState<number[]>([]);
     const [startTime, setStartTime] = useState<number | null>(null);
+    const { updateAbecedariumScore, setScore, score, updateScore } = useContext(ScoreContext);
     const inputRefs = useRef<Array<TextInput | null>>([]);
+    const [modalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
       loadNewWord();
@@ -59,28 +69,108 @@ const AbecedarioGame: React.FC = () => {
       setAttempts(prevAttempts => prevAttempts + 1); // Incrementar intentos
 
       if (feedbackArray.every(fb => fb === '✅')) {
+        handleModalVisible()
         const endTime = Date.now();
         const totalTime = Math.floor((endTime - (startTime ?? 0)) / 1000); // Tiempo total en segundos
-        Alert.alert(
-          '¡Correcto!',
-          `Has completado la palabra.\nTiempo: ${totalTime} segundos\nIntentos: ${attempts + 1}\nErrores por letra: ${JSON.stringify(errorsPerLetter)}`
-        );
-        loadNewWord(); // Cargar nueva palabra para jugar de nuevo
+        
+        if (score.correct + 1 >= 50) {
+          if (score.achievements.indexOf("50Total") === -1) {
+            score.achievements.push("50Total");
+          }
+          if (score.correct + 1 >= 150){
+            if (score.achievements.indexOf("150Total") === -1) {
+              score.achievements.push("150Total");
+            }
+            if (score.correct + 1 >= 500){
+              if (score.achievements.indexOf("500Total") === -1) {
+                score.achievements.push("500Total");
+              }
+              if (score.correct + 1 >= 1000){
+                if (score.achievements.indexOf("1000Total") === -1) {
+                  score.achievements.push("1000Total");
+                }
+              }
+            }
+          }
+        }
+  
+        switch (score.scoreToday + 1) {
+          case 1:
+            if (score.achievements.indexOf("1stToday") === -1) {
+              score.achievements.push("1stToday");
+            }
+            break;
+          case 10:
+            if (score.achievements.indexOf("10thToday") === -1) {
+              score.achievements.push("10thToday");
+            }
+            break;
+          case 25:
+            if (score.achievements.indexOf("25thToday") === -1) {
+              score.achievements.push("25thToday");
+            }
+            break;
+          case 50:
+            if (score.achievements.indexOf("50thToday") === -1) {
+              score.achievements.push("50thToday");
+            }
+            break;
+          default:
+            break;
+        }
+
+        setScore(prevScore => ({
+          ...prevScore,
+          correct: score.correct + 1,
+          scoreToday: score.scoreToday+1, // Actualizar el array en el estado
+        }));
+
+        updateAbecedariumScore(currentWord, totalTime, attempts+1, errorsPerLetter);
+        updateScore(score.correct + 1, score.incorrect, score.achievements, score.scoreToday+1, null, null);
+        showToastCorrect();
+
       } else {
         Alert.alert('Inténtalo de nuevo', 'Algunas letras no son correctas.');
+        showToastInCorrect();
       }
     };
 
     const handleInputChange = (text: string, index: number) => {
       const newUserInput = [...userInput];
       newUserInput[index] = text.toUpperCase();
-      setUserInput(newUserInput);
+      setUserInput(newUserInput);  
 
       // Mover el foco al siguiente input automáticamente
       if (text && index < inputRefs.current.length - 1) {
         inputRefs.current[index + 1]?.focus();
       }
     };
+
+    const handleModalVisible = () => {
+      setModalVisible(!modalVisible);
+  };
+
+  const showToastCorrect = () => {
+    Toast.show('¡Respuesta correcta!', {
+        duration: Toast.durations.LONG,
+        animation: true,
+        backgroundColor: Colors.primary,
+        textColor: Colors.onPrimary,
+        hideOnPress: true,
+        shadow: true,
+    });
+};
+
+const showToastInCorrect = () => {
+    Toast.show('Respuesta incorrecta, vuelve a intentarlo!', {
+        duration: Toast.durations.LONG,
+        animation: true,
+        backgroundColor: Colors.primary,
+        textColor: Colors.onPrimary,
+        hideOnPress: true,
+        shadow: true,
+    });
+};
 
   return (
     <ScrollView>
@@ -115,6 +205,13 @@ const AbecedarioGame: React.FC = () => {
   <TouchableOpacity style={styles.button} onPress={checkAnswer}>
     <Text style={styles.buttonText}>Comprobar</Text>
   </TouchableOpacity>
+</View>
+
+<View>
+<ModalAbecedarium isVisible={modalVisible} navigation={navigation} onPlayAgain={() => {
+          setModalVisible(false);
+          loadNewWord(); // Ejecutar cuando el modal se cierra
+        }} />
 </View>
 
     </ScrollView>

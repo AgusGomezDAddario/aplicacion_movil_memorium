@@ -16,6 +16,7 @@ export const ScoreProvider = ({ children }) => {
     achievements: [''],
     gonoGo: [],
     orderium: [],
+    abedecarium: [],
   });
 
   const [currentScore, setCurrentScore] = useState([0]);
@@ -172,6 +173,36 @@ export const ScoreProvider = ({ children }) => {
       });
     }
   };
+
+  const updateAbecedariumScore = async (palabra, tiempo, vecesJugadas,equivocaciones) => {
+    const newAbecedariumData = { palabra, tiempo, vecesJugadas,equivocaciones};
+    const updatedAbecedarium = [...score.abedecarium, newAbecedariumData];
+  
+    const scoreRef = collection(db, 'score');
+    const itemsRef = query(scoreRef, where(documentId(), '==', user.uid));
+    const response = await getDocs(itemsRef);
+  
+    if (response.size > 0) {
+      const docRef = response.docs[0];
+      const batch = writeBatch(db);
+  
+      batch.update(docRef.ref, {
+        abedecarium: updatedAbecedarium
+      });
+      await batch.commit();
+  
+      setScore(prevScore => ({
+        ...prevScore,
+        abedecarium: updatedAbecedarium
+      }));
+    } else {
+      const scoreDocRef = doc(scoreRef, user.uid);
+      await setDoc(scoreDocRef, {
+        email: user.email,
+        abedecarium: [newAbecedariumData]
+      });
+    }
+  };
   
 
   return (
@@ -183,6 +214,7 @@ export const ScoreProvider = ({ children }) => {
         currentScore,
         setCurrentScore,
         updateOrderiumScore,
+        updateAbecedariumScore,
       }}
     >
       {children}

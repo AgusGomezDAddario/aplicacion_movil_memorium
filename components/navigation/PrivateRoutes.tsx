@@ -34,6 +34,7 @@ import InformationJuego3 from "../screens/InformationJuego3";
 
 import TutorialOrderium from "../screens/TutorialOrderium";
 import TutorialGoNoGo from "../screens/TutorialGoNoGo";
+import TutorialAbecedarium from "../screens/TutorialAbecedarium";
 
 
 /* const theme = {
@@ -203,6 +204,11 @@ function HomeStack() {
       <Stack.Screen
         name="TutorialOrderium"
         component={TutorialOrderium}
+        options={{ title: 'Tutorial' }}
+      />
+      <Stack.Screen
+        name="TutorialAbecedarium"
+        component={TutorialAbecedarium}
         options={{ title: 'Tutorial' }}
       />
       <Stack.Screen

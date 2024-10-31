@@ -136,12 +136,12 @@ const GonoGoGame: React.FC<Props> = ({ navigation }) => {
     setScore(prevScore => ({
       ...prevScore,
       correct: score.correct + 1,
-      scoreToday: score.scoreToday + 1,
+      scoreToday: score.scoreToday+1,
       gonoGo: updatedGonoGo // Actualizar el array en el estado
     }));
 
     // También actualizar en Firebase (si es necesario en este punto)
-    updateScore(score.correct + 1, score.incorrect, score.achievements, score.scoreToday, newGonoGoEntry.attempts, newGonoGoEntry.facilitations);
+    updateScore(score.correct + 1, score.incorrect, score.achievements, score.scoreToday+1, newGonoGoEntry.attempts, newGonoGoEntry.facilitations);
 
     handleModalVisible();
   };
