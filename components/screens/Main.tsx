@@ -149,10 +149,10 @@ import Toast from 'react-native-root-toast';
           onPress={() => navigate("InstruccionesJuegoOrderium")}
           style={{
             padding: Spacing * 3,
-            backgroundColor: Colors.second_gray,
+            backgroundColor: Colors.primary,
             marginVertical: Spacing * 4,
             borderRadius: Spacing,
-            shadowColor: Colors.gray,
+            shadowColor: Colors.primary,
             shadowOffset: {
               width: 0,
               height: Spacing,
@@ -161,26 +161,19 @@ import Toast from 'react-native-root-toast';
             shadowRadius: Spacing,
             display:"flex",
             flexDirection:"row",
-            justifyContent:"flex-start",
+            justifyContent:"center",
             alignItems:"center",
           }}
+        >
+          <Text
+            style={{
+              fontFamily: Fonts["Roboto-Bold"],
+              color: Colors.onPrimary,
+              textAlign: "center",
+              fontSize: FontSize.large,
+            }}
           >
-            <Ionicons
-                  name="lock-closed"
-                  color={Colors.onPrimary}
-                  size={Spacing * 4}
-                  style={{textAlign:"justify"}}
-                />
-            <Text
-              style={{
-                fontFamily: Fonts["Roboto-Bold"],
-                color: Colors.onPrimary,
-                textAlign: "center",
-                fontSize: FontSize.large,
-                paddingLeft:Spacing*6,
-              }}
-            >
-              Juego 4
+              Orderium
             </Text>
           </TouchableOpacity>
 
@@ -188,10 +181,10 @@ import Toast from 'react-native-root-toast';
           onPress={() => navigate("InstruccionesJuego5")}
           style={{
             padding: Spacing * 3,
-            backgroundColor: Colors.second_gray,
+            backgroundColor: Colors.primary,
             marginVertical: Spacing * 4,
             borderRadius: Spacing,
-            shadowColor: Colors.gray,
+            shadowColor: Colors.primary,
             shadowOffset: {
               width: 0,
               height: Spacing,
@@ -200,26 +193,19 @@ import Toast from 'react-native-root-toast';
             shadowRadius: Spacing,
             display:"flex",
             flexDirection:"row",
-            justifyContent:"flex-start",
+            justifyContent:"center",
             alignItems:"center",
           }}
+        >
+          <Text
+            style={{
+              fontFamily: Fonts["Roboto-Bold"],
+              color: Colors.onPrimary,
+              textAlign: "center",
+              fontSize: FontSize.large,
+            }}
           >
-            <Ionicons
-                  name="lock-closed"
-                  color={Colors.onPrimary}
-                  size={Spacing * 4}
-                  style={{textAlign:"justify"}}
-                />
-            <Text
-              style={{
-                fontFamily: Fonts["Roboto-Bold"],
-                color: Colors.onPrimary,
-                textAlign: "center",
-                fontSize: FontSize.large,
-                paddingLeft:Spacing*6,
-              }}
-            >
-              Juego 5
+              Abecedarium
             </Text>
           </TouchableOpacity>
           <View style={styles.buttonContainer_Boton}>

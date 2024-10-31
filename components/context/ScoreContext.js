@@ -3,6 +3,7 @@ import { db } from "./../firebase/config"
 import { collection, query, where, addDoc, writeBatch, documentId, getDocs, setDoc, doc } from "firebase/firestore"
 import { LoginContext } from "./LoginContext";
 import { useContext } from "react";
+import { number } from "yup";
 
 export const ScoreContext = createContext();
 
@@ -17,6 +18,7 @@ export const ScoreProvider = ({ children }) => {
     gonoGo: [],
     orderium: [],
     abedecarium: [],
+    numerium: [],
   });
 
   const [currentScore, setCurrentScore] = useState([0]);
@@ -203,6 +205,36 @@ export const ScoreProvider = ({ children }) => {
       });
     }
   };
+
+  const updateNumeriumScore = async (digitos, tiempo, vecesJugadas, tiempoDigitos ,distractorTime) => {
+    const newNumeriumData = { digitos, tiempo, vecesJugadas, tiempoDigitos, distractorTime };
+    const updatedNumerium = [...score.numerium, newNumeriumData];
+  
+    const scoreRef = collection(db, 'score');
+    const itemsRef = query(scoreRef, where(documentId(), '==', user.uid));
+    const response = await getDocs(itemsRef);
+  
+    if (response.size > 0) {
+      const docRef = response.docs[0];
+      const batch = writeBatch(db);
+  
+      batch.update(docRef.ref, {
+        numerium: updatedNumerium
+      });
+      await batch.commit();
+  
+      setScore(prevScore => ({
+        ...prevScore,
+        numerium: updatedNumerium
+      }));
+    } else {
+      const scoreDocRef = doc(scoreRef, user.uid);
+      await setDoc(scoreDocRef, {
+        email: user.email,
+        numerium: [newNumeriumData]
+      });
+    }
+  };
   
 
   return (
@@ -215,6 +247,7 @@ export const ScoreProvider = ({ children }) => {
         setCurrentScore,
         updateOrderiumScore,
         updateAbecedariumScore,
+        updateNumeriumScore,
       }}
     >
       {children}

@@ -44,9 +44,12 @@ const NumberGame: React.FC<Props> = ({ route, navigation: { navigate } }: Props)
   const [finalNumber, setFinalNumber] = useState(0);
   const [resultado, setResultado] = useState(false);
   const [valor, setValor] = useState(0);
-  const { score, updateScore, setScore, setCurrentScore } = useContext(ScoreContext)
+  const { score, updateScore, setScore, setCurrentScore, updateNumeriumScore } = useContext(ScoreContext)
+
+  const [startTime, setStartTime] = useState<number | null>(null);
 
   useEffect(() => {
+    setStartTime(Date.now()); // Iniciamos el temporizador
     let randomNumber = Math.floor(Math.random() * 10);
     setNumber(randomNumber);
     arregloNumeros.push(randomNumber);
@@ -116,6 +119,9 @@ const NumberGame: React.FC<Props> = ({ route, navigation: { navigate } }: Props)
     const concatenatedNumber = miArreglo.map(String).join("");
     if (number2 === parseInt(concatenatedNumber, 10)) {
       setResultado(true);
+      const endTime = Date.now();
+      const totalTime = Math.floor((endTime - (startTime ?? 0)) / 1000);
+      updateNumeriumScore(numberOfDigits, totalTime, contadorFalldios+1, digitDisplayTime, distractorTime);
 
       if (score.correct + 1 >= 50) {
         if (score.achievements.indexOf("50Total") === -1) {
@@ -196,6 +202,7 @@ const NumberGame: React.FC<Props> = ({ route, navigation: { navigate } }: Props)
     setFinalNumber(0);
     setResultado(false);
     setValor(valor+1);
+    setStartTime(Date.now());
   };
 
   function NumberDisplay({ numbers }) {
