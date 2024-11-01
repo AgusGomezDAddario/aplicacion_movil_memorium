@@ -30,7 +30,7 @@ type Props = NativeStackScreenProps<RootStackParamList, "Again">;
 
 const Again: React.FC<Props> = ({ navigation: { navigate }, route }) =>{
   const { logout, user } = useContext(LoginContext);
-  const { score, updateScore } = useContext(ScoreContext)
+  const { score, updateScore, updateMemoryGameScore } = useContext(ScoreContext)
   const { param1, param2 } = route.params;
 
   const [shoot, setShoot] = useState(false);

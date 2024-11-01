@@ -63,6 +63,7 @@ const Separator = () => {
 };
 const MemoryGame: React.FC = ({ navigation: { navigate } }: Props) => {
   const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const [startTime, setStartTime] = useState<number | null>(null);
 
   async function playSound(respuesta: String) {
     console.log('Loading Sound');
@@ -159,7 +160,7 @@ const MemoryGame: React.FC = ({ navigation: { navigate } }: Props) => {
   const [previousImage, setPreviousImage] = useState(null);
   const isFocused = useIsFocused();
   const [loader, setLoader] = useState(false);
-  const { score, setScore, setCurrentScore } = useContext(ScoreContext);
+  const { score, setScore, setCurrentScore, updateMemoryGameScore } = useContext(ScoreContext);
   const ONE_SECOND_IN_MS = 1000;
   const PATTERN = [
     1 * ONE_SECOND_IN_MS,
@@ -190,6 +191,7 @@ const MemoryGame: React.FC = ({ navigation: { navigate } }: Props) => {
   };
 
   useEffect(() => {
+    setStartTime(Date.now()); 
     console.log(bandera);
     console.log(nivelesCat[dropdownValue1][bandera].length);
     setPreviousImage(null);
@@ -289,6 +291,9 @@ const MemoryGame: React.FC = ({ navigation: { navigate } }: Props) => {
       playSound("correcta");
       confetti = true;
       showToastCorrect();
+      const endTime = Date.now();
+      const totalTime = Math.floor((endTime - (startTime ?? 0)) / 1000);
+      updateMemoryGameScore(bandera,totalTime,"SI",currentImage === previousImage ? "SI":"NO",dropdownTimeValue1,tiempoPrimerImagen,dropdownValue1)
 
     } else {
       console.log("Te equivocaste, no es lo correcto");
@@ -305,6 +310,10 @@ const MemoryGame: React.FC = ({ navigation: { navigate } }: Props) => {
       });
       confetti = false;
       showToastInCorrect();
+      const endTime = Date.now();
+      const totalTime = Math.floor((endTime - (startTime ?? 0)) / 1000);
+      updateMemoryGameScore(bandera,totalTime,"NO",currentImage === previousImage ? "SI":"NO",dropdownTimeValue1,tiempoPrimerImagen,dropdownValue1)
+
     }
     navigate("Again", { param1: previousImage, param2: currentImage });
   };

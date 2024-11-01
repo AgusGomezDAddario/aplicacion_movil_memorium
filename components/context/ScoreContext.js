@@ -19,6 +19,7 @@ export const ScoreProvider = ({ children }) => {
     orderium: [],
     abedecarium: [],
     numerium: [],
+    memoryGame: [],
   });
 
   const [currentScore, setCurrentScore] = useState([0]);
@@ -90,9 +91,9 @@ export const ScoreProvider = ({ children }) => {
         }
         else {
           console.log("Sos un usuario nuevo, tus datos se inicializan en 0")
-          setScore({ correct: 0, incorrect: 0, fecha: new Date(), racha: 0, achievements: [], scoreToday: 0 })
+          setScore({ correct: 0, incorrect: 0, fecha: new Date(), racha: 0, achievements: [], scoreToday: 0, gonoGo: [],orderium: [], abedecarium: [], numerium: [], memoryGame: [] });
           const scoreDocRef = doc(scoreRef, user.uid);
-          await setDoc(scoreDocRef, { scorecorrect: 0, scoreincorrect: 0, scoreToday: 0, fecha: score.fecha, racha: 0, email: user.email, achievements: [] })
+          await setDoc(scoreDocRef, { scorecorrect: 0, scoreincorrect: 0, scoreToday: 0, fecha: score.fecha, racha: 0, email: user.email, achievements: [], gonoGo: [],orderium: [], abedecarium: [], numerium: [], memoryGame: [] });
         }
       }
     };
@@ -235,6 +236,36 @@ export const ScoreProvider = ({ children }) => {
       });
     }
   };
+
+  const updateMemoryGameScore = async (categoria, tiempo, acerto, iguales ,distractorTime, tiempoImagenes, dificultad) => {
+    const newMemoryGameData = { categoria, tiempo, acerto, iguales,distractorTime, tiempoImagenes, dificultad };
+    const updatedMemoryGame = [...score.memoryGame, newMemoryGameData];
+  
+    const scoreRef = collection(db, 'score');
+    const itemsRef = query(scoreRef, where(documentId(), '==', user.uid));
+    const response = await getDocs(itemsRef);
+  
+    if (response.size > 0) {
+      const docRef = response.docs[0];
+      const batch = writeBatch(db);
+  
+      batch.update(docRef.ref, {
+        memoryGame: updatedMemoryGame
+      });
+      await batch.commit();
+  
+      setScore(prevScore => ({
+        ...prevScore,
+        memoryGame: updatedMemoryGame
+      }));
+    } else {
+      const scoreDocRef = doc(scoreRef, user.uid);
+      await setDoc(scoreDocRef, {
+        email: user.email,
+        memoryGame: [newMemoryGameData]
+      });
+    }
+  };
   
 
   return (
@@ -248,6 +279,7 @@ export const ScoreProvider = ({ children }) => {
         updateOrderiumScore,
         updateAbecedariumScore,
         updateNumeriumScore,
+        updateMemoryGameScore,
       }}
     >
       {children}
