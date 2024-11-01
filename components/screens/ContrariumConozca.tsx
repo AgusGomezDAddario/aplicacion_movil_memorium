@@ -55,11 +55,10 @@ const InformationScreen: React.FC<Props> = ({
             marginRight: Spacing * 1.5,
           }}
         >
-          El juego Contrarium trabaja su memoria semántica y su control
-          inhibitorio. Al buscar antónimos, usted ejercita su capacidad para
-          acceder y manipular su conocimiento del lenguaje, fortaleciendo las
-          conexiones en áreas del cerebro relacionadas con el procesamiento del
-          lenguaje.
+          Este juego trabaja su memoria semántica y su control inhibitorio. Al
+          buscar antónimos, usted ejercita su capacidad para acceder y manipular
+          su conocimiento del lenguaje, fortaleciendo las conexiones en áreas
+          del cerebro relacionadas con el procesamiento del lenguaje.
         </Text>
 
         <View

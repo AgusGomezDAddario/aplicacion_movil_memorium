@@ -15,11 +15,11 @@ import { RootStackParamList } from "../../types";
 import MemoryGame from "../screens/MemoryGame";
 import Again from "../screens/Again";
 import CategoriesScreen from "../screens/Categories";
-import IntruccionesJuego2Screen from "../screens/InstructionsGame2";
-import InstruccionesJuego1Screen from "../screens/InstruccionesJuego1";
-import InstruccionesJuego3Screen from "../screens/InstruccionesJuego3";
-import InstruccionesJuego5Screen from "../screens/InstruccionesJuego5";
-import InstruccionesJuegoOrderiumScreen from "../screens/InstruccionesJuegoOrderium";
+import IntruccionesJuego2Screen from "../screens/NumeriumInformation";
+import InstruccionesJuego1Screen from "../screens/MemoryGameInformation";
+import InstruccionesJuego3Screen from "../screens/ContrariumInformation";
+import InstruccionesJuego5Screen from "../screens/AbecedariumInformation";
+import InstruccionesJuegoOrderiumScreen from "../screens/OrderiumInformation";
 import EstadisticasJuego1Screen from "../screens/StatisticsGame1";
 import ForgotPasswordScreen from "../screens/ForgotPassword";
 import NumberGame from "../screens/NumberGame";
@@ -28,10 +28,11 @@ import OrderiumGame from "../screens/OrderiumGame";
 import AbecedarioGame from "../screens/AbecedarioGame";
 import InformationScreen from "../screens/Information";
 import Tutorial1Screen from "../screens/Tutorial1";
-import InformationJuego1 from "../screens/InformationJuego1";
-import InformationJuego2 from "../screens/InformationJuego2";
-import InformationJuego3 from "../screens/InformationJuego3";
-
+import InformationJuego1 from "../screens/MemoryGameConozca";
+import InformationJuego2 from "../screens/NumeriumConozca";
+import InformationJuego3 from "../screens/ContrariumConozca";
+import InformationJuego4 from "../screens/OrderiumConozca";
+import InformationJuego5 from "../screens/AbecedariumConozca";
 import TutorialOrderium from "../screens/TutorialOrderium";
 import TutorialGoNoGo from "../screens/TutorialGoNoGo";
 import TutorialAbecedarium from "../screens/TutorialAbecedarium";
@@ -201,6 +202,16 @@ function HomeStack() {
         component={InformationJuego3}
         options={{ title: 'Información' }}
       />
+      <Stack.Screen
+        name="InformationJuego4"
+        component={InformationJuego4}
+        options={{ title: 'Información' }}
+      />
+      <Stack.Screen
+      name="InformationJuego5"
+      component={InformationJuego5}
+      options={{ title: 'Información' }}
+    />
       <Stack.Screen
         name="TutorialOrderium"
         component={TutorialOrderium}

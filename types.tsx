@@ -39,6 +39,8 @@ export type RootStackParamList = {
   InformationJuego1:undefined;
   InformationJuego2:undefined;
   InformationJuego3:undefined;
+  InformationJuego4:undefined;
+  InformationJuego5:undefined;
   TutorialOrderium:undefined;
   TutorialGoNoGo:undefined;
   TutorialAbecedarium:undefined;

@@ -10,7 +10,7 @@ import { ScoreContext } from "../context/ScoreContext";
 const { height } = Dimensions.get("window");
 const { width } = Dimensions.get("window");
 export var bandera: string;
-import { dropdownValue1 } from "./InstruccionesJuego1";
+import { dropdownValue1 } from "./MemoryGameInformation";
 import nivelesCat from "./../Similar/similar.json";
 import React, { useState } from "react";
 import {

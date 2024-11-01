@@ -40,9 +40,9 @@ import Toast from 'react-native-root-toast';
 const { height } = Dimensions.get("window");
 const { width } = Dimensions.get("window");
 import nivelesCat from "./../Similar/similar.json";
-import { dropdownValue1 } from "./InstruccionesJuego1";
-import { dropdownTimeValue1 } from "./InstruccionesJuego1";
-import { dropdownTimeInicialValue1 } from "./InstruccionesJuego1";
+import { dropdownValue1 } from "./MemoryGameInformation";
+import { dropdownTimeValue1 } from "./MemoryGameInformation";
+import { dropdownTimeInicialValue1 } from "./MemoryGameInformation";
 import {
   Gesture,
   GestureDetector,

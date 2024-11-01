@@ -3,16 +3,21 @@ import {
   Text,
   TouchableOpacity,
   View,
-  ScrollView
+  ScrollView,
+  StyleSheet
 } from "react-native";
+import { Entypo } from "@expo/vector-icons";
 import Spacing from "../constants/Spacing";
 import FontSize from "../constants/FontSize";
 import Colors from "../constants/Color";
 import Fonts from "../constants/Fonts";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types";
-type Props = NativeStackScreenProps<RootStackParamList, "InstruccionesJuegoOrderium">;
-const InstruccionesJuegoOrderiumScreen: React.FC<Props> = ({ navigation: { navigate } }: Props) => {
+import { SoundComponent } from "../logic/audioInstructions";
+import Octicons from '@expo/vector-icons/Octicons';
+
+type Props = NativeStackScreenProps<RootStackParamList, "InstruccionesJuego3">;
+const InstruccionesJuego3Screen= ({ navigation: { navigate } }) => {
     return (
         <ScrollView>
             <View
@@ -26,7 +31,7 @@ const InstruccionesJuegoOrderiumScreen: React.FC<Props> = ({ navigation: { navig
                     }}
                 >
 
-                    <Text
+                    {/* <Text
                         style={{
                             fontSize: FontSize.large,
                             color: Colors.primary,
@@ -35,7 +40,7 @@ const InstruccionesJuegoOrderiumScreen: React.FC<Props> = ({ navigation: { navig
                         }}
                     >
                        El siguiente juego es para trabajar tu memoria a corto plazo
-                    </Text>
+                    </Text> */}
 
                     <Text
                         style={{
@@ -46,23 +51,16 @@ const InstruccionesJuegoOrderiumScreen: React.FC<Props> = ({ navigation: { navig
                             paddingTop: Spacing * 2,
                         }}
                     >
-                       Se te mostrara una palabra 
+                       Elige el antónimo de una palabra presentada entre varias opciones. Sin límite de tiempo, este juego ayuda a fortalecer la memoria verbal.
                     </Text>
-
-                    <Text
-                        style={{
-                            fontSize: FontSize.large,
-                            color: Colors.primary,
-                            fontFamily: Fonts["poppins-bold"],
-                            textAlign: "center",
-                            paddingTop: Spacing * 2,
-                        }}
-                    >
-                       Ademas cuentas con una bomba que te permitira eliminar una de las opciones incorrectas en caso de que tengas dudas. Usala sola cuando creas necesaria
-                    </Text>
-
+                    <View style={styles.buttonContainer_Boton}>
+                    <SoundComponent juego={"go_no_go"}/>
+            <TouchableOpacity onPress={() => navigate("InformationJuego3")}>
+            <Octicons name="info" size={38} color="blue" style={styles.infomration}/>
+            </TouchableOpacity>
+                </View>
                     <TouchableOpacity
-                        onPress={() => navigate("OrderiumGame")}
+                        onPress={() => navigate("GonoGoGame")}
                         style={{
                             padding: Spacing * 2,
                             backgroundColor: Colors.primary,
@@ -87,9 +85,12 @@ const InstruccionesJuegoOrderiumScreen: React.FC<Props> = ({ navigation: { navig
                         >
                             Comenzar
                         </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => navigate("TutorialOrderium")}
+                        </TouchableOpacity>
+                </View>
+                <View>
+            
+            <TouchableOpacity
+                        onPress={() => navigate("TutorialGoNoGo")}
                         style={{
                             padding: Spacing * 2,
                             backgroundColor: Colors.primary,
@@ -115,11 +116,24 @@ const InstruccionesJuegoOrderiumScreen: React.FC<Props> = ({ navigation: { navig
                             Ver Tutorial
                         </Text>
                     </TouchableOpacity>
-                </View>
+
+            </View>
             </View>
         </ScrollView>
     );
 };
 
 
-export default InstruccionesJuegoOrderiumScreen;
+export default InstruccionesJuego3Screen;
+
+const styles = StyleSheet.create({
+    buttonContainer_Boton: {
+      flexDirection: "row",
+      justifyContent: "space-evenly",
+      marginTop: 10,
+    },
+    infomration:{
+      marginTop: 32,
+    }
+  });
+  
