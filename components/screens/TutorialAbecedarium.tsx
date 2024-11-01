@@ -46,9 +46,9 @@ const TutorialAbecedarium: React.FC<Props> = ({ navigation: { navigate } }: Prop
                 bottomBarColor={Colors.onPrimary}
                 showPagination
                 skipLabel={'Omitir'}
-                onSkip={() => navigate('InstruccionesJuegoOrderium') }
+                onSkip={() => navigate('InstruccionesJuego5') }
                 nextLabel={'Siguiente'}
-                onDone={() => navigate('InstruccionesJuegoOrderium')}
+                onDone={() => navigate('InstruccionesJuego5')}
                 flatlistProps 
                 bottomBarHeight={50}
                 transitionAnimationDuration={200}
