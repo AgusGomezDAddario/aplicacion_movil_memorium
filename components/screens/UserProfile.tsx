@@ -77,7 +77,7 @@ function UserProfileScreen({ navigation: { navigate } }: Props) {
           </Text>
 
           <View style={{ marginTop: Spacing * 2 }}>
-            <Text style={styles.header}>Resultados Memory Game</Text>
+            <Text style={styles.header}>Resultados</Text>
             <View style={styles.itemContainer}>
               <View style={styles.item}>
                 <Text>Acertadas</Text>
