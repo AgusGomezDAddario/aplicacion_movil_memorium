@@ -155,19 +155,6 @@ const Again: React.FC<Props> = ({ navigation: { navigate }, route }) =>{
             </Text>
           </TouchableOpacity>
         </View>
-
-        <Text
-          style={{
-            fontSize: FontSize.large,
-            color: Colors.primary,
-            fontFamily: Fonts["Roboto-Bold"],
-            textAlign: "center",
-            paddingTop: Spacing,
-            paddingBottom: Spacing * 4,
-          }}
-        >
-          Puntaje actual: {score.correct}
-        </Text>
       </View>
     </ScrollView>
   );

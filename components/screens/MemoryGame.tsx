@@ -102,16 +102,16 @@ const MemoryGame: React.FC = ({ navigation: { navigate } }: Props) => {
 
   const estiloAnimado = useAnimatedStyle(() => ({
     transform: [
-      { translateX: focoX.value },
-      { translateY: focoY.value },
-      { translateX: -centroImagen.x },
-      { translateY: -centroImagen.y },
-      { scale: escalaImg.value },
-      { translateX: -focoX.value },
-      { translateY: -focoY.value },
-      { translateX: centroImagen.x },
-      { translateY: centroImagen.y },
-    ],
+      { translateX: focoX.value as number },
+      { translateY: focoY.value as number },
+      { translateX: -centroImagen.x as number },
+      { translateY: -centroImagen.y as number },
+      { scale: escalaImg.value as number },
+      { translateX: -focoX.value as number },
+      { translateY: -focoY.value as number },
+      { translateX: centroImagen.x as number },
+      { translateY: centroImagen.y as number },
+    ] as any,
   }));
 
   useEffect(() => {
@@ -427,16 +427,6 @@ const MemoryGame: React.FC = ({ navigation: { navigate } }: Props) => {
                       )
                   }
                 </View>
-                <Text
-                  style={{
-                    fontSize: FontSize.large,
-                    color: Colors.primary,
-                    fontFamily: Fonts["Roboto-Bold"],
-                    textAlign: "center",
-                  }}
-                >
-                  Puntaje actual: {score.correct}
-                </Text>
                 {previousImage !== null && (
                   <View
                     style={{

@@ -1,5 +1,4 @@
-// context/LoginContext.js
-
+import firebase from 'firebase/app';
 import React, { createContext, useState, useEffect } from "react";
 import { auth, db } from "../firebase/config";
 import { 
@@ -7,7 +6,7 @@ import {
   signInWithEmailAndPassword, 
   signOut 
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 export const LoginContext = createContext();
 
@@ -17,6 +16,7 @@ export const LoginProvider = ({ children }) => {
     logged: false,
     uid: null,
     creacion: null,
+    name: null,
   });
 
   const register = async (values) => {
@@ -40,6 +40,7 @@ export const LoginProvider = ({ children }) => {
       
       setUser({
         email: values.email,
+        name: values.name,
         logged: true,
         uid: uid,
         creacion: new Date(),
@@ -57,15 +58,22 @@ export const LoginProvider = ({ children }) => {
         values.email,
         values.password
       );
+  
+      // Fetch scoreData from Firestore using modular syntax
+      const userDocRef = doc(db, "users", userCredential.user.uid);
+      const userDoc = await getDoc(userDocRef);
+      const scoreData = userDoc.exists() ? userDoc.data() : null;
+  
       setUser({
         email: userCredential.user.email,
+        name: scoreData ? scoreData.name : null,
         logged: true,
         uid: userCredential.user.uid,
         creacion: userCredential.user.metadata.creationTime,
       });
     } catch (error) {
       console.error("Login Error:", error);
-      alert("Error al iniciar sesión.");
+      alert(`Error al iniciar sesión: ${error.message}`);
     }
   };
 
@@ -74,6 +82,7 @@ export const LoginProvider = ({ children }) => {
       await signOut(auth);
       setUser({
         email: null,
+        name: null,
         logged: false,
         uid: null,
         creacion: null,
@@ -85,17 +94,23 @@ export const LoginProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
+    const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
       if (firebaseUser) {
+        // Obtener datos adicionales desde Firestore
+        const scoreDoc = await getDoc(doc(db, "score", firebaseUser.uid));
+        const scoreData = scoreDoc.exists() ? scoreDoc.data() : {};
+
         setUser({
           email: firebaseUser.email,
+          name: scoreData.name || null, // Establecer name desde Firestore
           logged: true,
           uid: firebaseUser.uid,
-          creacion: firebaseUser.metadata.creationTime,
+          creacion: firebaseUser.metadata.creationTime, // Usar cadena de texto
         });
       } else {
         setUser({
           email: null,
+          name: null, // Reiniciar name
           logged: false,
           uid: null,
           creacion: null,
