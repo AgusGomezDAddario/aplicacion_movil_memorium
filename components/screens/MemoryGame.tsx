@@ -468,10 +468,12 @@ const MemoryGame: React.FC = ({ navigation: { navigate } }: Props) => {
                     <TouchableOpacity
                       onPress={() => handleOptionSelected(currentImage !== previousImage)}
                       style={{
+                        backgroundColor: Colors.primary,
                         paddingVertical: Spacing * 1.5,
                         paddingHorizontal: Spacing * 2,
                         width: "48%",
                         borderRadius: Spacing,
+                        shadowColor: Colors.primary,
                         shadowOffset: {
                           width: 0,
                           height: Spacing,
@@ -483,7 +485,7 @@ const MemoryGame: React.FC = ({ navigation: { navigate } }: Props) => {
                       <Text
                         style={{
                           fontFamily: Fonts["Roboto-Bold"],
-                          color: Colors.text,
+                          color: Colors.onPrimary,
                           fontSize: FontSize.large,
                           textAlign: "center",
                         }}

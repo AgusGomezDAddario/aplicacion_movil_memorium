@@ -17,7 +17,7 @@ export const ScoreProvider = ({ children }) => {
     achievements: [''],
     gonoGo: [],
     orderium: [],
-    abedecarium: [],
+    abecedarium: [],
     numerium: [],
     memoryGame: [],
   });
@@ -91,9 +91,9 @@ export const ScoreProvider = ({ children }) => {
         }
         else {
           console.log("Sos un usuario nuevo, tus datos se inicializan en 0")
-          setScore({ correct: 0, incorrect: 0, fecha: new Date(), racha: 0, achievements: [], scoreToday: 0, gonoGo: [],orderium: [], abedecarium: [], numerium: [], memoryGame: [] });
+          setScore({ correct: 0, incorrect: 0, fecha: new Date(), racha: 0, achievements: [], scoreToday: 0, gonoGo: [],orderium: [], abecedarium: [], numerium: [], memoryGame: [] });
           const scoreDocRef = doc(scoreRef, user.uid);
-          await setDoc(scoreDocRef, { scorecorrect: 0, scoreincorrect: 0, scoreToday: 0, fecha: score.fecha, racha: 0, email: user.email, achievements: [], gonoGo: [],orderium: [], abedecarium: [], numerium: [], memoryGame: [] });
+          await setDoc(scoreDocRef, { scorecorrect: 0, scoreincorrect: 0, scoreToday: 0, fecha: score.fecha, racha: 0, email: user.email, achievements: [], gonoGo: [],orderium: [], abecedarium: [], numerium: [], memoryGame: [] });
         }
       }
     };
@@ -179,7 +179,7 @@ export const ScoreProvider = ({ children }) => {
 
   const updateAbecedariumScore = async (palabra, tiempo, vecesJugadas,equivocaciones) => {
     const newAbecedariumData = { palabra, tiempo, vecesJugadas,equivocaciones};
-    const updatedAbecedarium = [...score.abedecarium, newAbecedariumData];
+    const updatedAbecedarium = [...score.abecedarium, newAbecedariumData];
   
     const scoreRef = collection(db, 'score');
     const itemsRef = query(scoreRef, where(documentId(), '==', user.uid));
@@ -190,19 +190,19 @@ export const ScoreProvider = ({ children }) => {
       const batch = writeBatch(db);
   
       batch.update(docRef.ref, {
-        abedecarium: updatedAbecedarium
+        abecedarium: updatedAbecedarium
       });
       await batch.commit();
   
       setScore(prevScore => ({
         ...prevScore,
-        abedecarium: updatedAbecedarium
+        abecedarium: updatedAbecedarium
       }));
     } else {
       const scoreDocRef = doc(scoreRef, user.uid);
       await setDoc(scoreDocRef, {
         email: user.email,
-        abedecarium: [newAbecedariumData]
+        abecedarium: [newAbecedariumData]
       });
     }
   };
