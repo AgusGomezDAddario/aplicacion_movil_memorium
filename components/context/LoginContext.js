@@ -1,8 +1,13 @@
-import React, { createContext, useEffect, useState } from "react";
-import { signOut, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword,signInWithRedirect, signInWithCredential, GoogleAuthProvider } from "firebase/auth";
-import { auth, provider, provider2 } from "../firebase/config";
-import { getAuth, signInWithPopup, FacebookAuthProvider } from "firebase/auth";
+// context/LoginContext.js
 
+import React, { createContext, useState, useEffect } from "react";
+import { auth, db } from "../firebase/config";
+import { 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  signOut 
+} from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 export const LoginContext = createContext();
 
@@ -11,93 +16,98 @@ export const LoginProvider = ({ children }) => {
     email: null,
     logged: false,
     uid: null,
-    creacion:null,
+    creacion: null,
   });
 
-  const [logueo, setLogueo] = useState(true);
-
-  const googleLogin = () => {
-    signInWithRedirect(auth, provider)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((error) => {
-        console.log(error);
+  const register = async (values) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+      const uid = userCredential.user.uid;
+      console.log("Usuario creado con UID:", uid);
+      
+      await setDoc(doc(db, "score", uid), {  // Asegúrate de que la colección sea "score"
+        name: values.name,
+        age: values.age,
+        dni: values.dni,
+        email: values.email,
+        creacion: new Date(),
       });
+      console.log("Datos adicionales guardados en Firestore");
+      
+      setUser({
+        email: values.email,
+        logged: true,
+        uid: uid,
+        creacion: new Date(),
+      });
+    } catch (error) {
+      console.error("Registration Error:", error);
+      alert(`Error al registrar el usuario: ${error.message}`);
+    }
   };
 
-  const facebookLogin = () => {
-    signInWithRedirect(auth, provider2)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((error) => {
-        console.log(error);
+  const login = async (values) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+      setUser({
+        email: userCredential.user.email,
+        logged: true,
+        uid: userCredential.user.uid,
+        creacion: userCredential.user.metadata.creationTime,
       });
-  }
-
-  const login = (values) => {
-    signInWithEmailAndPassword(auth, values.email, values.password)
-    .then(() => {
-      setLogueo(true);
-    })
-      .catch((error) => {
-        console.log(error);
-        setLogueo(false);
-      });
+    } catch (error) {
+      console.error("Login Error:", error);
+      alert("Error al iniciar sesión.");
+    }
   };
 
-  const register = (values) => {
-    createUserWithEmailAndPassword(auth, values.email, values.password)
-      .catch((error) => {
-        console.log(error.message);
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      setUser({
+        email: null,
+        logged: false,
+        uid: null,
+        creacion: null,
       });
+    } catch (error) {
+      console.error("Logout Error:", error);
+      alert("Error al cerrar sesión.");
+    }
   };
 
-  const logout = () => {
-    signOut(auth)
-      .then(() => {
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
+      if (firebaseUser) {
+        setUser({
+          email: firebaseUser.email,
+          logged: true,
+          uid: firebaseUser.uid,
+          creacion: firebaseUser.metadata.creationTime,
+        });
+      } else {
         setUser({
           email: null,
           logged: false,
           uid: null,
-          creacion:null,
+          creacion: null,
         });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log(user);
-        setUser({
-          email: user.email,
-          logged: true,
-          uid: user.uid,
-          creacion: user.metadata.creationTime,
-        });
-      } else {
-        logout();
       }
     });
-
     return () => unsubscribe();
   }, []);
 
   return (
     <LoginContext.Provider
-      value={{
-        user,
-        register,
-        login,
-        logout,
-        googleLogin,
-        facebookLogin,
-        logueo,
-      }}
+      value={{ user, register, login, logout, googleLogin: () => {}, facebookLogin: () => {} }}
     >
       {children}
     </LoginContext.Provider>
