@@ -53,33 +53,6 @@ const InstruccionesJuegoOrderiumScreen: React.FC<Props> = ({
             </TouchableOpacity>
           </View>
           <TouchableOpacity
-            onPress={() => navigate("OrderiumGame")}
-            style={{
-              padding: Spacing * 2,
-              backgroundColor: Colors.primary,
-              marginVertical: Spacing * 2,
-              borderRadius: Spacing,
-              shadowColor: Colors.primary,
-              shadowOffset: {
-                width: 0,
-                height: Spacing,
-              },
-              shadowOpacity: 0.3,
-              shadowRadius: Spacing,
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: Fonts["poppins-bold"],
-                color: Colors.onPrimary,
-                textAlign: "center",
-                fontSize: FontSize.large,
-              }}
-            >
-              Comenzar
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
             onPress={() => navigate("TutorialOrderium")}
             style={{
               padding: Spacing * 2,
@@ -104,6 +77,33 @@ const InstruccionesJuegoOrderiumScreen: React.FC<Props> = ({
               }}
             >
               Ver Tutorial
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigate("OrderiumGame")}
+            style={{
+              padding: Spacing * 2,
+              backgroundColor: Colors.primary,
+              marginVertical: Spacing * 2,
+              borderRadius: Spacing,
+              shadowColor: Colors.primary,
+              shadowOffset: {
+                width: 0,
+                height: Spacing,
+              },
+              shadowOpacity: 0.3,
+              shadowRadius: Spacing,
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: Fonts["poppins-bold"],
+                color: Colors.onPrimary,
+                textAlign: "center",
+                fontSize: FontSize.large,
+              }}
+            >
+              Comenzar
             </Text>
           </TouchableOpacity>
         </View>
