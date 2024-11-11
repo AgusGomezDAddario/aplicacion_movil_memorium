@@ -243,7 +243,7 @@ function SettingsStack() {
       <Stack.Screen
         name="UserProfile"
         component={UserProfileScreen}
-        options={{ title: 'User Page' }}
+        options={{ title: 'Perfil' }}
       />
     </Stack.Navigator>
   );

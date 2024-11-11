@@ -62,7 +62,7 @@ import {
                 marginVertical: Spacing * 3,
               }}
             >
-              Login here
+              Inicie Sesión
             </Text>
             <Text
               style={{
@@ -132,7 +132,7 @@ import {
                 fontSize: FontSize.large,
               }}
             >
-              Sign in
+              Iniciar
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -149,7 +149,7 @@ import {
                 fontSize: FontSize.small,
               }}
             >
-              Create new account
+              Crear nueva cuenta
             </Text>
           </TouchableOpacity>
   
@@ -166,7 +166,7 @@ import {
                 fontSize: FontSize.small,
               }}
             >
-              Or continue with
+              O continúa con
             </Text>
   
             <View

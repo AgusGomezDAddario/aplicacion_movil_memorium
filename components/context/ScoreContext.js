@@ -158,11 +158,10 @@ export const ScoreProvider = ({ children }) => {
     fetchScores(fechaActual);
   }, [user.uid]);
 
-  const updateScore = async (correct, incorrect, achievements, scoreToday, attempts, facilitations) => {
-    // 1. Validar y preparar datos
+  const updateScore = async (correct, incorrect, achievements, scoreToday, attempts, facilitations, time) => {    // 1. Validar y preparar datos
     const currentGonoGo = score.gonoGo || [];
-    const updatedGonoGo = attempts !== null && facilitations !== null
-        ? [...currentGonoGo, { attempts, facilitations, timestamp: new Date() }]
+    const updatedGonoGo = attempts !== null && facilitations !== null && time != null
+        ? [...currentGonoGo, { attempts, facilitations, time }]
         : currentGonoGo;
 
     // 2. Preparar datos validados para Firestore

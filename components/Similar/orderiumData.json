@@ -18,10 +18,6 @@
       { "100": 4, "80": 3, "60": 2, "40": 1 },
       { "7": 2, "1": 1, "12": 3, "20": 4 }
     ],
-    "Ordenar los colores por espectro": [
-      { "Rojo": 1, "Naranja": 2, "Amarillo": 3, "Verde": 4 },
-      { "Azul": 3, "Violeta": 4, "Cian": 1, "Índigo": 2 }
-    ],
     "Ordenar los planetas por distancia al Sol": [
       { "Mercurio": 1, "Venus": 2, "Tierra": 3, "Marte": 4 },
       { "Júpiter": 1, "Saturno": 2, "Urano": 3, "Neptuno": 4 }

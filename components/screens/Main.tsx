@@ -44,7 +44,7 @@ import Toast from 'react-native-root-toast';
       <ScrollView>
         <View
           style={{
-            padding: Spacing * 2,
+            padding: Spacing,
           }}
         >  
           <View
@@ -56,9 +56,9 @@ import Toast from 'react-native-root-toast';
         <TouchableOpacity
           onPress={() => navigate("InstruccionesJuego1")}
             style={{
-              padding: Spacing * 3,
+              padding: Spacing * 2.5,
               backgroundColor: Colors.primary,
-              marginVertical: Spacing * 4,
+              marginVertical: Spacing * 1.7,
               borderRadius: Spacing,
               shadowColor: Colors.primary,
               shadowOffset: {
@@ -84,9 +84,9 @@ import Toast from 'react-native-root-toast';
           <TouchableOpacity
           onPress={() => navigate("InstruccionesJuego2")}
             style={{
-              padding: Spacing * 3,
+              padding: Spacing * 2.5,
               backgroundColor: Colors.primary,
-              marginVertical: Spacing * 4,
+              marginVertical: Spacing * 1.7,
               borderRadius: Spacing,
               shadowColor: Colors.primary,
               shadowOffset: {
@@ -116,9 +116,9 @@ import Toast from 'react-native-root-toast';
           <TouchableOpacity
           onPress={() => navigate("InstruccionesJuego3")}
             style={{
-              padding: Spacing * 3,
+              padding: Spacing * 2.5,
               backgroundColor: Colors.primary,
-              marginVertical: Spacing * 4,
+              marginVertical: Spacing * 1.7,
               borderRadius: Spacing,
               shadowColor: Colors.primary,
               shadowOffset: {
@@ -148,9 +148,9 @@ import Toast from 'react-native-root-toast';
           <TouchableOpacity
           onPress={() => navigate("InstruccionesJuegoOrderium")}
           style={{
-            padding: Spacing * 3,
+            padding: Spacing * 2.5,
             backgroundColor: Colors.primary,
-            marginVertical: Spacing * 4,
+            marginVertical: Spacing * 1.7,
             borderRadius: Spacing,
             shadowColor: Colors.primary,
             shadowOffset: {
@@ -180,9 +180,9 @@ import Toast from 'react-native-root-toast';
           <TouchableOpacity
           onPress={() => navigate("InstruccionesJuego5")}
           style={{
-            padding: Spacing * 3,
+            padding: Spacing * 2.5,
             backgroundColor: Colors.primary,
-            marginVertical: Spacing * 4,
+            marginVertical: Spacing * 1.7,
             borderRadius: Spacing,
             shadowColor: Colors.primary,
             shadowOffset: {

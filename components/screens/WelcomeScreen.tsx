@@ -131,7 +131,7 @@ return {
                   textAlign: "center",
                 }}
               >
-                Login
+                Iniciar Sesión
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -151,7 +151,7 @@ return {
                   textAlign: "center",
                 }}
               >
-                Register
+                Registrarse
               </Text>
             </TouchableOpacity>
           </View>
