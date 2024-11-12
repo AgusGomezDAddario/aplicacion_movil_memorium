@@ -24,6 +24,7 @@ export const ScoreProvider = ({ children }) => {
     scoreToday: 0,
     fecha: "",
     racha: 0,
+    name: "",
     achievements: [""],
     gonoGo: [],
     orderium: [],
@@ -66,8 +67,13 @@ export const ScoreProvider = ({ children }) => {
             incorrect: data.scoreincorrect,
             scoreToday: data.scoreToday,
             racha: data.racha,
+            name: data.name,
             achievements: data.achievements,
             gonoGo: data.gonoGo || [],
+            orderium: data.orderium || [],
+            abecedarium: data.abecedarium || [],
+            numerium: data.numerium || [],
+            memoryGame: data.memoryGame || [],
           }));
           if (data.fecha) {
             if (
@@ -128,6 +134,7 @@ export const ScoreProvider = ({ children }) => {
             incorrect: 0,
             fecha: new Date(),
             racha: 0,
+            name: data.name,
             achievements: [],
             scoreToday: 0,
             gonoGo: [],
@@ -143,6 +150,7 @@ export const ScoreProvider = ({ children }) => {
             scoreToday: 0,
             fecha: score.fecha,
             racha: 0,
+            name:score.name,
             email: user.email,
             achievements: [],
             gonoGo: [],
@@ -210,6 +218,8 @@ export const ScoreProvider = ({ children }) => {
   const updateOrderiumScore = async (attempts, facilitations, timeSpent) => {
     const newOrderiumData = { attempts, facilitations, timeSpent };
     const updatedOrderium = [...score.orderium, newOrderiumData];
+
+    console.log("estoy aca el user es: "+user.uid)
 
     const scoreRef = collection(db, "score");
     const itemsRef = query(scoreRef, where(documentId(), "==", user.uid));

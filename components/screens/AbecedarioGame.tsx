@@ -18,6 +18,9 @@ import { RootStackParamList } from "../../types";
 import Colors from "./../constants/Color";
 import { showErrorCSS } from "react-native-svg/lib/typescript/deprecated";
 import FontSize from "../constants/FontSize";
+import Spacing from "../constants/Spacing";
+import Fonts from "../constants/Fonts";
+import ConfettiCannon from "react-native-confetti-cannon";
 
 type Props = NativeStackScreenProps<RootStackParamList, "AbecedarioGame">;
 
@@ -30,6 +33,7 @@ const AbecedarioGame: React.FC<Props> = ({ navigation }) => {
   const [attempts, setAttempts] = useState<number>(0);
   const [errorsPerLetter, setErrorsPerLetter] = useState<number[]>([]);
   const [startTime, setStartTime] = useState<number | null>(null);
+  const [shoot, setShoot] = useState(false);
   const { updateAbecedariumScore, setScore, score, updateScore } =
     useContext(ScoreContext);
   const inputRefs = useRef<Array<TextInput | null>>([]);
@@ -128,6 +132,11 @@ const AbecedarioGame: React.FC<Props> = ({ navigation }) => {
         scoreToday: score.scoreToday + 1, // Actualizar el array en el estado
       }));
 
+      setShoot(true); // Enciende el cañón
+      setTimeout(() => {
+        setShoot(false); // Apaga el cañón después de un tiempo (opcional)
+      }, 5000); // 
+
       updateAbecedariumScore(
         currentWord,
         totalTime,
@@ -189,7 +198,24 @@ const AbecedarioGame: React.FC<Props> = ({ navigation }) => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.title}>Abecedarium</Text>
+      <View
+        style={{
+          position: "absolute",
+          height: "100%",
+          top: 0,
+          left: 0,
+        }}
+        >
+          {shoot && (
+            <ConfettiCannon
+              count={200}
+              origin={{ x:width/2, y: 0 }}
+              explosionSpeed={1000}
+              fallSpeed={2000}
+              fadeOut={true}
+            />
+          )}
+        </View>
         <Text style={styles.word}>Palabra: {currentWord}</Text>
 
         <ScrollView
@@ -243,19 +269,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#F3F4F6",
+    marginTop: 30,
   },
   title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#374151",
-    marginBottom: 20,
-    letterSpacing: 1.2,
-  },
+    fontSize: FontSize.xLarge,
+    color: Colors.primary,
+    fontFamily: Fonts["poppins-bold"],
+    textAlign: "left",
+    marginBottom: Spacing * 2,
+},
   word: {
-    fontSize: 20,
-    fontWeight: "500",
-    color: "#6B7280",
-    marginBottom: 20,
+    fontSize: FontSize.xLarge,
+    color: Colors.primary,
+    fontFamily: Fonts["poppins-bold"],
+    textAlign: "left",
+    marginBottom: Spacing * 2,
   },
   inputContainer: {
     flexDirection: "row",
@@ -283,6 +311,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 5,
+    marginTop: 20,
   },
   inputScrollContainer: {
     flexDirection: "row",

@@ -63,10 +63,10 @@ function Backdrop({ scrollX, param1, param2}) {
           outputRange: [0, 1, 0],
         });
         return (
-          <View key={index}>
+          <View key={`${imagen}-${index}`}>
           <Animated.Image
 
-            key={index}
+            
             source={ imagen }
             style={[
               { width: width, height: ALTURA_BACKDROP ,opacity },
@@ -139,7 +139,7 @@ export default function Carru(props) {
         decelerationRate={0}
         scrollEventThrottle={16}
         data={myArray}
-        keyExtractor={(item) => item}
+        keyExtractor={(item, index) => `${item}-${index}`}
         renderItem={({ item, index }) => {
           const inputRange = [
             (index - 1) * ANCHO_CONTENEDOR,
@@ -152,6 +152,7 @@ export default function Carru(props) {
             outputRange: [0, -50, 0],
           });
           return (
+            <View key={`${item}-${index}`}>
             <View style={{ width: ANCHO_CONTENEDOR }}>
               <Animated.View
                 style={{
@@ -173,6 +174,7 @@ export default function Carru(props) {
                   />
                 </PinchGestureHandler>
               </Animated.View>
+            </View>
             </View>
           );
         }}

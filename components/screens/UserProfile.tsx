@@ -76,7 +76,7 @@ function UserProfileScreen({ navigation: { navigate } }: Props) {
               marginTop: Spacing,
             }}
           >
-            {user.name || "Nombre no disponible"} {/* Manejar caso de name indefinido */}
+            {score.name || "Nombre no disponible"} {/* Manejar caso de name indefinido */}
           </Text>
 
           <View style={{ marginTop: Spacing * 2 }}>

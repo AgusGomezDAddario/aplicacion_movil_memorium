@@ -19,6 +19,8 @@ export const LoginProvider = ({ children }) => {
     name: null,
   });
 
+  const [logueo, setLogueo] = useState(true);
+
   const register = async (values) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -63,6 +65,7 @@ export const LoginProvider = ({ children }) => {
       const userDocRef = doc(db, "users", userCredential.user.uid);
       const userDoc = await getDoc(userDocRef);
       const scoreData = userDoc.exists() ? userDoc.data() : null;
+      setLogueo(true);
   
       setUser({
         email: userCredential.user.email,
@@ -73,7 +76,7 @@ export const LoginProvider = ({ children }) => {
       });
     } catch (error) {
       console.error("Login Error:", error);
-      alert(`Error al iniciar sesión: ${error.message}`);
+      setLogueo(false);
     }
   };
 
@@ -122,7 +125,7 @@ export const LoginProvider = ({ children }) => {
 
   return (
     <LoginContext.Provider
-      value={{ user, register, login, logout, googleLogin: () => {}, facebookLogin: () => {} }}
+      value={{ user, register, login, logout, googleLogin: () => {}, facebookLogin: () => {}, logueo }}
     >
       {children}
     </LoginContext.Provider>

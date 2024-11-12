@@ -18,6 +18,7 @@ import { ScoreContext } from "../context/ScoreContext";
 import Toast from 'react-native-root-toast';
 import DogLoader from "./Loader2";
 import NewLoader from "./Loader3";
+import ConfettiCannon from "react-native-confetti-cannon";
 const { height } = Dimensions.get("window");
 const { width } = Dimensions.get("window");
 type Props = NativeStackScreenProps<RootStackParamList, "NumberGame">;
@@ -44,6 +45,7 @@ const NumberGame: React.FC<Props> = ({ route, navigation: { navigate } }: Props)
   const [finalNumber, setFinalNumber] = useState(0);
   const [resultado, setResultado] = useState(false);
   const [valor, setValor] = useState(0);
+  const [shoot, setShoot] = useState(false);
   const { score, updateScore, setScore, setCurrentScore, updateNumeriumScore } = useContext(ScoreContext)
 
   const [startTime, setStartTime] = useState<number | null>(null);
@@ -168,6 +170,11 @@ const NumberGame: React.FC<Props> = ({ route, navigation: { navigate } }: Props)
         default:
           break;
       }
+
+      setShoot(true); // Enciende el cañón
+      setTimeout(() => {
+        setShoot(false); // Apaga el cañón después de un tiempo (opcional)
+      }, 5000); 
 
       showToastCorrect();
       setScore(prevScore => ({
@@ -307,6 +314,24 @@ const NumberGame: React.FC<Props> = ({ route, navigation: { navigate } }: Props)
   return (
     <ScrollView>
       <View>
+      <View
+        style={{
+          position: "absolute",
+          height: "100%",
+          top: 0,
+          left: 0,
+        }}
+        >
+          {shoot && (
+            <ConfettiCannon
+              count={200}
+              origin={{ x:width/2, y: 0 }}
+              explosionSpeed={1000}
+              fallSpeed={2000}
+              fadeOut={true}
+            />
+          )}
+        </View>
         {
           loader === true ? (<View>
             <View
@@ -378,6 +403,7 @@ const NumberGame: React.FC<Props> = ({ route, navigation: { navigate } }: Props)
                       paddingTop: Spacing * 4,
                     }}
                   >
+
                     <Text
                       style={{
                         fontSize: FontSize.xxLarge,
