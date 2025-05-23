@@ -79,14 +79,14 @@ const WelcomeScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
                 width: "100%",
                 alignItems: "center",
                 justifyContent: "center",
-                marginTop: Spacing * 4,
+                marginTop: Spacing,
               }}
             >
               <Image
                 source={require("./../../assets/images/log-PhotoRoom.png-PhotoRoom.png")}
                 style={{
                   width: 400,
-                  height: height / 1.5,
+                  height: height / 2,
                   resizeMode: "contain",
                 }}
               />
@@ -106,14 +106,14 @@ const WelcomeScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               width: "100%",
               alignItems: "center",
               justifyContent: "center",
-              marginTop: Spacing * 4,
+              marginTop: Spacing,
             }}
           >
             <Image
               source={require("./../../assets/images/log-PhotoRoom.png-PhotoRoom.png")}
               style={{
                 width: 400,
-                height: height / 1.5,
+                height: height / 2,
                 resizeMode: "contain",
               }}
             />
@@ -191,16 +191,24 @@ const WelcomeScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
             <TouchableOpacity
               onPress={() => navigate("Register")}
               style={{
+                backgroundColor: Colors.primary,
                 paddingVertical: Spacing * 1.5,
                 paddingHorizontal: Spacing * 2,
                 width: "48%",
                 borderRadius: Spacing,
+                shadowColor: Colors.primary,
+                shadowOffset: {
+                  width: 0,
+                  height: Spacing,
+                },
+                shadowOpacity: 0.3,
+                shadowRadius: Spacing,
               }}
             >
               <Text
                 style={{
                   fontFamily: Fonts["Roboto-Bold"],
-                  color: Colors.text,
+                  color: Colors.onPrimary,
                   fontSize: FontSize.large,
                   textAlign: "center",
                 }}
