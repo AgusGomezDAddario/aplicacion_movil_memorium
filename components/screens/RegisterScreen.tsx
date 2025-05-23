@@ -240,6 +240,8 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
             },
             shadowOpacity: 0.3,
             shadowRadius: Spacing,
+            alignSelf: "center", 
+            width: "70%",
           }}
         >
           <Text

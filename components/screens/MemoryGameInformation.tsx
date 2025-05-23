@@ -90,7 +90,7 @@ const InstruccionesJuego1Screen: React.FC<Props> = ({
                 name="info"
                 size={38}
                 color="blue"
-                style={styles.infomration}
+                style={styles.information}
               />
             </TouchableOpacity>
           </View>
@@ -107,7 +107,9 @@ const InstruccionesJuego1Screen: React.FC<Props> = ({
             Selecciona la dificultad del juego
           </Text>
 
-          <DropdownComponent onValueChange={handleDropdownChange} />
+          <View style={{ width: "70%", alignSelf: "center" }}>
+            <DropdownComponent onValueChange={handleDropdownChange} />
+          </View>
 
           <View
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -157,6 +159,8 @@ const InstruccionesJuego1Screen: React.FC<Props> = ({
               },
               shadowOpacity: 0.3,
               shadowRadius: Spacing,
+              alignSelf: "center",
+              width: "70%",
             }}
           >
             <Text
@@ -250,7 +254,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
   },
-  infomration: {
+  information: {
     marginTop: 32,
   },
   item: {

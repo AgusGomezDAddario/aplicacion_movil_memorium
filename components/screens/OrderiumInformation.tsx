@@ -53,33 +53,6 @@ const InstruccionesJuegoOrderiumScreen: React.FC<Props> = ({
             </TouchableOpacity>
           </View>
           <TouchableOpacity
-            onPress={() => navigate("TutorialOrderium")}
-            style={{
-              padding: Spacing * 2,
-              backgroundColor: Colors.primary,
-              marginVertical: Spacing * 2,
-              borderRadius: Spacing,
-              shadowColor: Colors.primary,
-              shadowOffset: {
-                width: 0,
-                height: Spacing,
-              },
-              shadowOpacity: 0.3,
-              shadowRadius: Spacing,
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: Fonts["Roboto-bold"],
-                color: Colors.onPrimary,
-                textAlign: "center",
-                fontSize: FontSize.large,
-              }}
-            >
-              Ver Tutorial
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
             onPress={() => navigate("OrderiumGame")}
             style={{
               padding: Spacing * 2,
@@ -93,6 +66,8 @@ const InstruccionesJuegoOrderiumScreen: React.FC<Props> = ({
               },
               shadowOpacity: 0.3,
               shadowRadius: Spacing,
+              alignSelf: "center", 
+              width: "70%",
             }}
           >
             <Text

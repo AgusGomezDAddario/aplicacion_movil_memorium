@@ -55,33 +55,6 @@ const InstruccionesJuego3Screen = ({ navigation: { navigate } }) => {
             </TouchableOpacity>
           </View>
           <View>
-          <TouchableOpacity
-            onPress={() => navigate("TutorialGoNoGo")}
-            style={{
-              padding: Spacing * 2,
-              backgroundColor: Colors.primary,
-              marginVertical: Spacing * 2,
-              borderRadius: Spacing,
-              shadowColor: Colors.primary,
-              shadowOffset: {
-                width: 0,
-                height: Spacing,
-              },
-              shadowOpacity: 0.3,
-              shadowRadius: Spacing,
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: Fonts["Roboto-bold"],
-                color: Colors.onPrimary,
-                textAlign: "center",
-                fontSize: FontSize.large,
-              }}
-            >
-              Ver Tutorial
-            </Text>
-          </TouchableOpacity>
         </View>
           <TouchableOpacity
             onPress={() => navigate("GonoGoGame")}
@@ -97,6 +70,8 @@ const InstruccionesJuego3Screen = ({ navigation: { navigate } }) => {
               },
               shadowOpacity: 0.3,
               shadowRadius: Spacing,
+              alignSelf: "center", 
+              width: "70%",
             }}
           >
             <Text

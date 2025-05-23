@@ -122,6 +122,8 @@ import {
               },
               shadowOpacity: 0.3,
               shadowRadius: Spacing,
+              alignSelf: "center", 
+              width: "70%",
             }}
           >
             <Text

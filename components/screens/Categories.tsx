@@ -50,6 +50,8 @@ const CategoriesScreen: React.FC<Props> = ({ navigation: { navigate } }: Props) 
                 <View
                     style={{
                         marginVertical: Spacing * 3,
+                        alignSelf: "center", 
+                        width: "70%",
                     }}
                 >
 

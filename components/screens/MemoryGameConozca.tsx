@@ -37,11 +37,6 @@ const InformationScreen: React.FC<Props> = ({
           Conozca Memory Game
         </Text>
 
-        <Image
-          source={require("../../assets/images/log-PhotoRoom.png-PhotoRoom.png")}
-          style={{ width: 200, height: 200, alignSelf: "center" }}
-        />
-
         <Text
           style={{
             fontSize: 18,
