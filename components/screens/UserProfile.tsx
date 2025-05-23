@@ -59,8 +59,10 @@ function UserProfileScreen({ navigation: { navigate } }: Props) {
         <ImageBackground
           style={{
             height: height / 5,
+            width: height / 5, 
             marginVertical: Spacing * 2.3,
             marginBottom: Spacing,
+            alignSelf: "center", 
           }}
           resizeMode="contain"
           source={require("./../../assets/images/user.png")}
@@ -264,9 +266,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    color: Color.onPrimary,
   },
   buttonOpen: {
-    backgroundColor: Color.second_gray,
+    backgroundColor: Color.primary,
   },
   buttonClose: {
     backgroundColor: "#FF0000",
@@ -277,7 +280,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   textStyle_2: {
-    color: Color.text,
+    color: "white",
     fontFamily: "Roboto-Bold",
     textAlign: "center",
   },
