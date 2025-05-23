@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
 } from "react-native";
 import React from "react";
 import Spacing from "../constants/Spacing";
@@ -16,7 +17,11 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types";
 const { height } = Dimensions.get("window");
 import { useEffect, useState } from "react";
-import Animated, { useSharedValue, useAnimatedStyle, withTiming} from 'react-native-reanimated';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
 
 // ...
 
@@ -27,49 +32,93 @@ const WelcomeScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
 
   const position = useSharedValue(0);
 
-const animatedStyle = useAnimatedStyle(() => {
-return {
-  transform: [{ translateY: position.value }],
-};
-});
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: position.value }],
+    };
+  });
 
-// Cuando la imagen deba moverse
-
+  // Cuando la imagen deba moverse
 
   useEffect(() => {
     const timer1 = setTimeout(() => {
       position.value = withTiming(-height / 3, { duration: 1000 }); // Ajusta la duración a tu gusto
     }, 2000);
     const timer = setTimeout(() => {
-      
       setShowImage(false);
     }, 3000); // Cambia el valor de 3000 a la cantidad de milisegundos que deseas mostrar la imagen sola
     return () => {
-      clearTimeout( timer1)
-      clearTimeout( timer)};
+      clearTimeout(timer1);
+      clearTimeout(timer);
+    };
   }, []);
-    return (
-      <SafeAreaView style={{flex:1}}>
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
       {showImage ? (
-        <Animated.View style={[{ height: height, flex: 1, justifyContent: "center", alignItems: "center" }, animatedStyle]}>
-        <ImageBackground
-          style={{
-            height: height / 2.5,
-            width: '100%',
-          }}
-          resizeMode="contain"
-          source={require("./../../assets/images/log-PhotoRoom.png-PhotoRoom.png")}
-        />
-      </Animated.View>
-      ) : (
-        <View>
-          <ImageBackground
+        <Animated.View
+          style={[
+            {
+              height: height,
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            },
+            animatedStyle,
+          ]}
+        >
+          <View
             style={{
-              height: height / 2.5,
+              width: "100%",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: Spacing * 4,
             }}
-            resizeMode="contain"
-            source={require("./../../assets/images/log-PhotoRoom.png-PhotoRoom.png")}
-          />
+          >
+            <View
+              style={{
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: Spacing * 4,
+              }}
+            >
+              <Image
+                source={require("./../../assets/images/log-PhotoRoom.png-PhotoRoom.png")}
+                style={{
+                  width: 400,
+                  height: height / 1.5,
+                  resizeMode: "contain",
+                }}
+              />
+            </View>
+          </View>
+        </Animated.View>
+      ) : (
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "flex-start",
+          }}
+        >
+          <View
+            style={{
+              width: "100%",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: Spacing * 4,
+            }}
+          >
+            <Image
+              source={require("./../../assets/images/log-PhotoRoom.png-PhotoRoom.png")}
+              style={{
+                width: 400,
+                height: height / 1.5,
+                resizeMode: "contain",
+              }}
+            />
+          </View>
+
           <View
             style={{
               paddingHorizontal: Spacing * 4,
@@ -86,7 +135,7 @@ return {
             >
               Agiliza tu mente aquí
             </Text>
-  
+
             <Text
               style={{
                 fontSize: FontSize.small,
@@ -96,14 +145,18 @@ return {
                 marginTop: Spacing * 2,
               }}
             >
-              Explora los juegos que tenemos para ti y empieza con los mejores juegos de memoria
+              Explora los juegos que tenemos para ti y empieza con los mejores
+              juegos de memoria
             </Text>
           </View>
+
           <View
             style={{
               paddingHorizontal: Spacing * 2,
               paddingTop: Spacing * 6,
               flexDirection: "row",
+              justifyContent: "space-between",
+              width: "90%", // alineación adecuada en web
             }}
           >
             <TouchableOpacity
@@ -134,6 +187,7 @@ return {
                 Iniciar Sesión
               </Text>
             </TouchableOpacity>
+
             <TouchableOpacity
               onPress={() => navigate("Register")}
               style={{
@@ -156,11 +210,11 @@ return {
             </TouchableOpacity>
           </View>
         </View>
-         )}
-      </SafeAreaView>
-    );
-  };
-  
-  export default WelcomeScreen;
-  
-  const styles = StyleSheet.create({});
+      )}
+    </SafeAreaView>
+  );
+};
+
+export default WelcomeScreen;
+
+const styles = StyleSheet.create({});
