@@ -40,9 +40,8 @@ const InformationScreen: React.FC<Props> = ({
         <Text
           style={{
             fontSize: 18,
-            backgroundColor: Colors.primary,
-            fontFamily: Fonts["Roboto-Bold"],
-            color: Colors.onPrimary,
+            fontFamily: Fonts["poppins-bold"],
+            color: Colors.primary,
             borderRadius: Spacing,
             textAlign: "center",
             padding: Spacing * 2,
@@ -67,9 +66,8 @@ const InformationScreen: React.FC<Props> = ({
         <Text
           style={{
             fontSize: 18,
-            backgroundColor: Colors.primary,
-            fontFamily: Fonts["Roboto-Bold"],
-            color: Colors.onPrimary,
+            fontFamily: Fonts["poppins-bold"],
+            color: Colors.primary,
             borderRadius: Spacing,
             textAlign: "center",
             padding: Spacing * 2,
