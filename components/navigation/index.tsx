@@ -19,7 +19,7 @@ import InstruccionesJuego2Screen from "../screens/NumeriumInformation";
 import InstruccionesJuego1Screen from "../screens/MemoryGameInformation";
 import EstadisticasJuego1Screen from "../screens/StatisticsGame1";
 import ForgotPasswordScreen from "../screens/ForgotPassword";
-import InformationScreen from "../screens/Information";
+import InformationScreen from "../screens/Informacion";
 import Tutorial1Screen from "../screens/Tutorial1";
 import InformationJuego1 from "../screens/MemoryGameConozca";
 import InformationJuego2 from "../screens/NumeriumConozca";
@@ -66,7 +66,7 @@ function RootNavigator() {
       <Stack.Screen name="InstruccionesJuego1" component={InstruccionesJuego1Screen} />
       <Stack.Screen name="EstadisticasJuego1" component={EstadisticasJuego1Screen} />
       <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-      <Stack.Screen name="Information" component={InformationScreen} />
+      <Stack.Screen name="Informacion" component={InformationScreen} />
       <Stack.Screen name="Tutorial1" component={Tutorial1Screen} />
       <Stack.Screen name="InformationJuego1" component={InformationJuego1} />
       <Stack.Screen name="InformationJuego2" component={InformationJuego2} />

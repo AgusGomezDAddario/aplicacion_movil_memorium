@@ -54,9 +54,9 @@ const MainScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
           <TouchableOpacity
             onPress={() => navigate("InstruccionesJuego1")}
             style={{
-              padding: Spacing * 2.5,
+              padding: Spacing * 2,
               backgroundColor: Colors.primary,
-              marginVertical: Spacing * 1.7,
+              marginVertical: Spacing * 1.4,
               borderRadius: Spacing,
               shadowColor: Colors.primary,
               shadowOffset: {
@@ -84,9 +84,9 @@ const MainScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
           <TouchableOpacity
             onPress={() => navigate("InstruccionesJuego2")}
             style={{
-              padding: Spacing * 2.5,
+              padding: Spacing * 2,
               backgroundColor: Colors.primary,
-              marginVertical: Spacing * 1.7,
+              marginVertical: Spacing * 1.4,
               borderRadius: Spacing,
               shadowColor: Colors.primary,
               shadowOffset: {
@@ -97,10 +97,6 @@ const MainScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               shadowRadius: Spacing,
               alignSelf: "center", 
               width: "70%",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
             }}
           >
             <Text
@@ -118,9 +114,9 @@ const MainScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
           <TouchableOpacity
             onPress={() => navigate("InstruccionesJuego3")}
             style={{
-              padding: Spacing * 2.5,
+              padding: Spacing * 2,
               backgroundColor: Colors.primary,
-              marginVertical: Spacing * 1.7,
+              marginVertical: Spacing * 1.4,
               borderRadius: Spacing,
               shadowColor: Colors.primary,
               shadowOffset: {
@@ -131,10 +127,6 @@ const MainScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               shadowRadius: Spacing,
               alignSelf: "center", 
               width: "70%",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
             }}
           >
             <Text
@@ -152,9 +144,9 @@ const MainScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
           <TouchableOpacity
             onPress={() => navigate("InstruccionesJuegoOrderium")}
             style={{
-              padding: Spacing * 2.5,
+              padding: Spacing * 2,
               backgroundColor: Colors.primary,
-              marginVertical: Spacing * 1.7,
+              marginVertical: Spacing * 1.4,
               borderRadius: Spacing,
               shadowColor: Colors.primary,
               shadowOffset: {
@@ -165,10 +157,6 @@ const MainScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               shadowRadius: Spacing,
               alignSelf: "center", 
               width: "70%",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
             }}
           >
             <Text
@@ -186,9 +174,9 @@ const MainScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
           <TouchableOpacity
             onPress={() => navigate("InstruccionesJuego5")}
             style={{
-              padding: Spacing * 2.5,
+              padding: Spacing * 2,
               backgroundColor: Colors.primary,
-              marginVertical: Spacing * 1.7,
+              marginVertical: Spacing * 1.4,
               borderRadius: Spacing,
               shadowColor: Colors.primary,
               shadowOffset: {
@@ -199,10 +187,6 @@ const MainScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               shadowRadius: Spacing,
               alignSelf: "center", 
               width: "70%",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
             }}
           >
             <Text
@@ -217,7 +201,7 @@ const MainScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
             </Text>
           </TouchableOpacity>
           <View style={styles.buttonContainer_Boton}>
-            <TouchableOpacity onPress={() => navigate("Information")}>
+            <TouchableOpacity onPress={() => navigate("Informacion")}>
               <Entypo name="info-with-circle" size={24} color="grey" />
             </TouchableOpacity>
           </View>

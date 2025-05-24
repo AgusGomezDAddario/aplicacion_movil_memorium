@@ -26,7 +26,7 @@ import NumberGame from "../screens/NumberGame";
 import GonoGoGame from "../screens/GonoGoGame";
 import OrderiumGame from "../screens/OrderiumGame";
 import AbecedarioGame from "../screens/AbecedarioGame";
-import InformationScreen from "../screens/Information";
+import InformationScreen from "../screens/Informacion";
 import Tutorial1Screen from "../screens/Tutorial1";
 import InformationJuego1 from "../screens/MemoryGameConozca";
 import InformationJuego2 from "../screens/NumeriumConozca";
@@ -178,9 +178,9 @@ function HomeStack() {
         options={{ title: 'Abecedarium' }}
       />
       <Stack.Screen
-        name="Information"
+        name="Informacion"
         component={InformationScreen}
-        options={{ title: 'Information' }}
+        options={{ title: 'Informacion' }}
       />
       <Stack.Screen
         name="Tutorial1"

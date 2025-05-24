@@ -226,7 +226,7 @@ const NumberGame: React.FC<Props> = ({ route, navigation: { navigate } }: Props)
           textAlign: "center",
           marginTop: Spacing * 4,
         }}>
-          El numero era: {finalNumber}
+          El número era: {finalNumber}
         </Text>)}
       </View>
     );
@@ -348,7 +348,7 @@ const NumberGame: React.FC<Props> = ({ route, navigation: { navigate } }: Props)
                   textAlign: "center",
                 }}
               >
-                No te olvides el numero!
+                No te olvides el número!
               </Text>
             </View>
             <View
@@ -377,7 +377,7 @@ const NumberGame: React.FC<Props> = ({ route, navigation: { navigate } }: Props)
                         textAlign: "center",
                       }}
                     >
-                      Recuerda este Numero!
+                      Recuerda este Número!
                     </Text>
                     <View
                       style={{
@@ -412,12 +412,14 @@ const NumberGame: React.FC<Props> = ({ route, navigation: { navigate } }: Props)
                         textAlign: "center",
                       }}
                     >
-                      ¿Cual es el numero?
+                      ¿Cual es el número?
                     </Text>
                     <NumberDisplay numbers={arregloNumeros} />
                     <View
                       style={{
                         marginVertical: Spacing * 3,
+                        alignSelf: "center", 
+                        width: "70%",
                       }}
                     >
                       {!resultado && (
@@ -442,6 +444,8 @@ const NumberGame: React.FC<Props> = ({ route, navigation: { navigate } }: Props)
                           },
                           shadowOpacity: 0.3,
                           shadowRadius: Spacing,
+                          alignSelf: "center", 
+                          width: "70%",
                         }}
                       >
                         <Text
@@ -481,7 +485,7 @@ const NumberGame: React.FC<Props> = ({ route, navigation: { navigate } }: Props)
                             fontSize: FontSize.large,
                           }}
                         >
-                          Probar con otro numero
+                          Probar con otro número
                         </Text>
                       </TouchableOpacity>
                       )}

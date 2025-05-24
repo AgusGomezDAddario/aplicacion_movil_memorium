@@ -15,7 +15,7 @@ import { Octicons } from '@expo/vector-icons';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types';
 
-type Props = NativeStackScreenProps<RootStackParamList, "Information">;
+type Props = NativeStackScreenProps<RootStackParamList, "Informacion">;
 const InformationScreen: React.FC<Props> = ({ navigation: { navigate } }: Props) => {
     const openYouTubeVideo = () => {
         const youtubeVideoURL = 'https://youtu.be/TbeNCyrhYMM';
@@ -56,7 +56,7 @@ const InformationScreen: React.FC<Props> = ({ navigation: { navigate } }: Props)
                         style={{
                             fontSize: FontSize.large,
                             color: Colors.primary,
-                            fontFamily: Fonts["Roboto-light"],
+                            fontFamily: Fonts["poppins-light"],
                             textAlign: "left",
                         }}
                     >
@@ -111,7 +111,7 @@ const InformationScreen: React.FC<Props> = ({ navigation: { navigate } }: Props)
                         style={{
                             fontSize: FontSize.large,
                             color: Colors.primary,
-                            fontFamily: Fonts["Roboto-light"],
+                            fontFamily: Fonts["poppins-light"],
                             textAlign: "left",
                         }}
                     >
