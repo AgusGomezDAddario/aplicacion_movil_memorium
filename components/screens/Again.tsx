@@ -46,11 +46,11 @@ const Again: React.FC<Props> = ({ navigation: { navigate }, route }) =>{
   }, [confetti]); // Ejecutar el efecto cada vez que la variable cambie
 
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor:"white"}}>
       <View>
         <Carru param1={param1} param2={param2} />
       </View>
-      <View style={{backgroundColor:"white"}}>
+      <View >
         <View
         style={{
           position: "absolute",
@@ -102,7 +102,7 @@ const Again: React.FC<Props> = ({ navigation: { navigate }, route }) =>{
               backgroundColor: Colors.primary,
               paddingVertical: Spacing * 1.5,
               paddingHorizontal: Spacing * 2,
-              width: "48%",
+              width: "35%",
               borderRadius: Spacing,
               shadowColor: Colors.primary,
               shadowOffset: {
@@ -129,11 +129,11 @@ const Again: React.FC<Props> = ({ navigation: { navigate }, route }) =>{
           <TouchableOpacity
             onPress={() =>{ 
               updateScore(score.correct, score.incorrect, score.achievements, score.scoreToday, null, null)
-              navigate("EstadisticasJuego1")}}
+              navigate("Main");}}
             style={{
               paddingVertical: Spacing * 1.5,
               paddingHorizontal: Spacing * 2,
-              width: "48%",
+              width: "35%",
               borderRadius: Spacing,
               shadowOffset: {
                 width: 0,
