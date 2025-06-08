@@ -141,7 +141,7 @@ const MainScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => navigate("InstruccionesJuegoOrderium")}
             style={{
               padding: Spacing * 2,
@@ -169,7 +169,7 @@ const MainScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
             >
               Orderium
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <TouchableOpacity
             onPress={() => navigate("InstruccionesJuego5")}
