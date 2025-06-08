@@ -5,9 +5,10 @@ import {
   View,
   ScrollView,
   Dimensions,
+  Platform,
+  Alert,
 } from "react-native";
-import Toast from 'react-native-root-toast';
-import ModalGoNoGo from "./ModalGoNoGo";
+import ModalGoNoGo from "./ModalGoNoGo"; // Asegurate que este sea compatible o adaptalo si no
 import palabras from "./../Similar/gonogo.json";
 import Spacing from "../constants/Spacing";
 import FontSize from "../constants/FontSize";
@@ -16,19 +17,15 @@ import Fonts from "../constants/Fonts";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types";
 import { ScoreContext } from "../context/ScoreContext";
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 type Props = NativeStackScreenProps<RootStackParamList, "GonoGoGame">;
 
-const { height, width } = Dimensions.get("window");
-
 const GonoGoGame: React.FC<Props> = ({ navigation }) => {
-
   const [currentWord, setCurrentWord] = useState<string>("");
   const [options, setOptions] = useState<string[]>([]);
-  const [facilitationsUsed, setFacilitationsUsed] = useState<number>(0); // Facilitaciones usadas en la ronda actual
-  const [attempts, setAttempts] = useState<number>(0); // Intentos en la ronda actual
-  const [facilitationsLeft, setFacilitationsLeft] = useState<number>(3); // Permite usar hasta 3 veces
+  const [facilitationsUsed, setFacilitationsUsed] = useState<number>(0);
+  const [attempts, setAttempts] = useState<number>(0);
+  const [facilitationsLeft, setFacilitationsLeft] = useState<number>(3);
   const [modalVisible, setModalVisible] = useState(false);
   const { score, setScore, updateScore } = useContext(ScoreContext);
   const [startTime, setStartTime] = useState<number | null>(null);
@@ -44,9 +41,9 @@ const GonoGoGame: React.FC<Props> = ({ navigation }) => {
     setCurrentWord(randomKey);
     const optionKeys = Object.keys(palabras[randomKey]);
     setOptions(shuffleArray(optionKeys));
-    setFacilitationsLeft(3); // Resetear el contador de facilitaciones
-    setAttempts(0); // Resetear intentos de la ronda actual
-    setFacilitationsUsed(0); // Resetear facilitaciones usadas
+    setFacilitationsLeft(3);
+    setAttempts(0);
+    setFacilitationsUsed(0);
   };
 
   const shuffleArray = (array: string[]) => {
@@ -58,59 +55,41 @@ const GonoGoGame: React.FC<Props> = ({ navigation }) => {
   };
 
   const handlePress = (key: string) => {
-    setAttempts(attempts + 1); // Incrementar intentos en la ronda actual
+    setAttempts((prev) => prev + 1);
 
     if (!palabras[currentWord][key]) {
-      showToastInCorrect();
+      showIncorrect();
     } else {
+      // Agregar logros
+      const newAchievements = [...score.achievements];
+      const totalCorrect = score.correct + 1;
 
-      if (score.correct + 1 >= 50) {
-        if (score.achievements.indexOf("50Total") === -1) {
-          score.achievements.push("50Total");
-        }
-        if (score.correct + 1 >= 150){
-          if (score.achievements.indexOf("150Total") === -1) {
-            score.achievements.push("150Total");
-          }
-          if (score.correct + 1 >= 500){
-            if (score.achievements.indexOf("500Total") === -1) {
-              score.achievements.push("500Total");
-            }
-            if (score.correct + 1 >= 1000){
-              if (score.achievements.indexOf("1000Total") === -1) {
-                score.achievements.push("1000Total");
-              }
-            }
-          }
-        }
-      }
+      if (totalCorrect >= 50 && !newAchievements.includes("50Total"))
+        newAchievements.push("50Total");
+      if (totalCorrect >= 150 && !newAchievements.includes("150Total"))
+        newAchievements.push("150Total");
+      if (totalCorrect >= 500 && !newAchievements.includes("500Total"))
+        newAchievements.push("500Total");
+      if (totalCorrect >= 1000 && !newAchievements.includes("1000Total"))
+        newAchievements.push("1000Total");
 
       switch (score.scoreToday + 1) {
         case 1:
-          if (score.achievements.indexOf("1stToday") === -1) {
-            score.achievements.push("1stToday");
-          }
+          !newAchievements.includes("1stToday") && newAchievements.push("1stToday");
           break;
         case 10:
-          if (score.achievements.indexOf("10thToday") === -1) {
-            score.achievements.push("10thToday");
-          }
+          !newAchievements.includes("10thToday") && newAchievements.push("10thToday");
           break;
         case 25:
-          if (score.achievements.indexOf("25thToday") === -1) {
-            score.achievements.push("25thToday");
-          }
+          !newAchievements.includes("25thToday") && newAchievements.push("25thToday");
           break;
         case 50:
-          if (score.achievements.indexOf("50thToday") === -1) {
-            score.achievements.push("50thToday");
-          }
-          break;
-        default:
+          !newAchievements.includes("50thToday") && newAchievements.push("50thToday");
           break;
       }
-      showToastCorrect();
-      handleRoundEnd(); // Terminar la ronda y almacenar los datos
+
+      showCorrect();
+      handleRoundEnd(newAchievements);
     }
   };
 
@@ -119,128 +98,114 @@ const GonoGoGame: React.FC<Props> = ({ navigation }) => {
       const incorrectOptions = options.filter(option => !palabras[currentWord][option]);
       if (incorrectOptions.length > 0) {
         const optionToRemove = incorrectOptions[Math.floor(Math.random() * incorrectOptions.length)];
-        setOptions(options.filter(option => option !== optionToRemove));
-        setFacilitationsLeft(facilitationsLeft - 1);
-        setFacilitationsUsed(facilitationsUsed + 1); // Incrementar facilitaciones usadas en la ronda actual
+        setOptions(prev => prev.filter(option => option !== optionToRemove));
+        setFacilitationsLeft(prev => prev - 1);
+        setFacilitationsUsed(prev => prev + 1);
       }
     }
   };
 
-  const handleRoundEnd = () => {
+  const handleRoundEnd = (newAchievements: string[]) => {
     const endTime = Date.now();
     const totalTime = Math.floor((endTime - (startTime ?? 0)) / 1000);
-    // Agregar la entrada de intentos y facilitaciones al array de gonoGo
-    const newGonoGoEntry = {
-      attempts: attempts + 1, // Total de intentos
+
+    const newEntry = {
+      attempts: attempts + 1,
       facilitations: facilitationsUsed,
-      time: totalTime, // Total de facilitaciones usadas
+      time: totalTime,
     };
 
-    const updatedGonoGo = [...score.gonoGo, newGonoGoEntry]; // Agregar la nueva entrada al array
+    const updatedGonoGo = [...score.gonoGo, newEntry];
 
-    setScore(prevScore => ({
-      ...prevScore,
-      correct: score.correct + 1,
-      scoreToday: score.scoreToday+1,
-      gonoGo: updatedGonoGo // Actualizar el array en el estado
+    setScore(prev => ({
+      ...prev,
+      correct: prev.correct + 1,
+      scoreToday: prev.scoreToday + 1,
+      achievements: newAchievements,
+      gonoGo: updatedGonoGo
     }));
 
-    // También actualizar en Firebase (si es necesario en este punto)
-    updateScore(score.correct + 1, score.incorrect, score.achievements, score.scoreToday+1, newGonoGoEntry.attempts, newGonoGoEntry.facilitations, newGonoGoEntry.time);
-    handleModalVisible();
+    updateScore(
+      score.correct + 1,
+      score.incorrect,
+      newAchievements,
+      score.scoreToday + 1,
+      newEntry.attempts,
+      newEntry.facilitations,
+      newEntry.time
+    );
+
+    setModalVisible(true);
   };
 
-  const handleModalVisible = () => {
-    setModalVisible(!modalVisible);
+  const showCorrect = () => {
+    Platform.OS === "web"
+      ? alert("✅ Respuesta correcta!")
+      : console.log("Respuesta correcta!"); // Puedes usar un toast móvil si querés
   };
 
-  const showToastCorrect = () => {
-    Toast.show('Respuesta correcta!', {
-      duration: Toast.durations.LONG,
-      animation: true,
-      backgroundColor: Colors.primary,
-      textColor: Colors.onPrimary,
-      hideOnPress: true,
-      shadow: true,
-    });
-  };
-
-  const showToastInCorrect = () => {
-    Toast.show('Respuesta incorrecta, Vuelve a intentarlo!', {
-      duration: Toast.durations.LONG,
-      animation: true,
-      backgroundColor: Colors.primary,
-      textColor: Colors.onPrimary,
-      hideOnPress: true,
-      shadow: true,
-    });
+  const showIncorrect = () => {
+    Platform.OS === "web"
+      ? alert("❌ Respuesta incorrecta. Intenta de nuevo!")
+      : console.log("Respuesta incorrecta.");
   };
 
   return (
     <ScrollView>
       <View style={{
-        flexDirection: "row", // Colocar la palabra y el botón en la misma fila
-        justifyContent: "space-between", // Separar la palabra y el botón
-        alignItems: "center", // Alinear verticalmente en el centro
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
         marginHorizontal: Spacing * 3,
         paddingTop: Spacing * 3,
       }}>
-        <Text
-          style={{
-            fontSize: FontSize.xLarge,
-            color: Colors.primary,
-            fontFamily: Fonts["poppins-bold"],
-            textAlign: "left",
-            
-          }}>
+        <Text style={{
+          fontSize: FontSize.xLarge,
+          color: Colors.primary,
+          fontFamily: Fonts["poppins-bold"],
+          textAlign: "left",
+        }}>
           {currentWord}
         </Text>
+
         <TouchableOpacity
           style={{
-            padding: Spacing * 1, // Reducir el tamaño del botón
-            backgroundColor: facilitationsLeft > 1 ? Colors.primary : Colors.gray,
-            borderRadius: Spacing / 2, // Botón más redondeado
+            padding: Spacing,
+            backgroundColor: facilitationsLeft > 0 ? Colors.primary : Colors.gray,
+            borderRadius: Spacing / 2,
             justifyContent: "center",
             alignItems: "center",
-            width: 40, // Hacer el botón más angosto
+            width: 40,
             height: 40,
           }}
           onPress={handleFacilitate}
           disabled={facilitationsLeft <= 0 || options.length <= 2}
         >
-          <FontAwesome name="bomb" size={16} color="white" />
+          <Text style={{ color: "white", fontSize: 12 }}>💣</Text>
         </TouchableOpacity>
       </View>
-      <View
-        style={{
-          marginVertical: Spacing,
-          padding: Spacing * 2,
-        }}>
+
+      <View style={{
+        marginVertical: Spacing,
+        padding: Spacing * 2,
+      }}>
         {options.map((key) => (
           <TouchableOpacity
+            key={key}
             style={{
               padding: Spacing * 2,
               backgroundColor: Colors.primary,
               marginVertical: Spacing * 1.5,
               borderRadius: Spacing,
-              shadowColor: Colors.primary,
-              shadowOffset: {
-                width: 0,
-                height: Spacing,
-              },
-              shadowOpacity: 0.3,
-              shadowRadius: Spacing,
             }}
-            key={key}
             onPress={() => handlePress(key)}
           >
-            <Text
-              style={{
-                fontFamily: Fonts["poppins-bold"],
-                color: Colors.onPrimary,
-                textAlign: "center",
-                fontSize: FontSize.large,
-              }}>
+            <Text style={{
+              fontFamily: Fonts["poppins-bold"],
+              color: Colors.onPrimary,
+              textAlign: "center",
+              fontSize: FontSize.large,
+            }}>
               {key}
             </Text>
           </TouchableOpacity>
