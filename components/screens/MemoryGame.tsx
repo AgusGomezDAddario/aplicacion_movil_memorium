@@ -40,9 +40,9 @@ import Toast from 'react-native-root-toast';
 const { height } = Dimensions.get("window");
 const { width } = Dimensions.get("window");
 import nivelesCat from "./../Similar/similar.json";
-import { dropdownValue1 } from "./InstruccionesJuego1";
-import { dropdownTimeValue1 } from "./InstruccionesJuego1";
-import { dropdownTimeInicialValue1 } from "./InstruccionesJuego1";
+import { dropdownValue1 } from "./MemoryGameInformation";
+import { dropdownTimeValue1 } from "./MemoryGameInformation";
+import { dropdownTimeInicialValue1 } from "./MemoryGameInformation";
 import {
   Gesture,
   GestureDetector,
@@ -63,6 +63,7 @@ const Separator = () => {
 };
 const MemoryGame: React.FC = ({ navigation: { navigate } }: Props) => {
   const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const [startTime, setStartTime] = useState<number | null>(null);
 
   async function playSound(respuesta: String) {
     console.log('Loading Sound');
@@ -101,16 +102,16 @@ const MemoryGame: React.FC = ({ navigation: { navigate } }: Props) => {
 
   const estiloAnimado = useAnimatedStyle(() => ({
     transform: [
-      { translateX: focoX.value },
-      { translateY: focoY.value },
-      { translateX: -centroImagen.x },
-      { translateY: -centroImagen.y },
-      { scale: escalaImg.value },
-      { translateX: -focoX.value },
-      { translateY: -focoY.value },
-      { translateX: centroImagen.x },
-      { translateY: centroImagen.y },
-    ],
+      { translateX: focoX.value as number },
+      { translateY: focoY.value as number },
+      { translateX: -centroImagen.x as number },
+      { translateY: -centroImagen.y as number },
+      { scale: escalaImg.value as number },
+      { translateX: -focoX.value as number },
+      { translateY: -focoY.value as number },
+      { translateX: centroImagen.x as number },
+      { translateY: centroImagen.y as number },
+    ] as any,
   }));
 
   useEffect(() => {
@@ -159,7 +160,7 @@ const MemoryGame: React.FC = ({ navigation: { navigate } }: Props) => {
   const [previousImage, setPreviousImage] = useState(null);
   const isFocused = useIsFocused();
   const [loader, setLoader] = useState(false);
-  const { score, setScore, setCurrentScore } = useContext(ScoreContext);
+  const { score, setScore, setCurrentScore, updateMemoryGameScore } = useContext(ScoreContext);
   const ONE_SECOND_IN_MS = 1000;
   const PATTERN = [
     1 * ONE_SECOND_IN_MS,
@@ -190,6 +191,7 @@ const MemoryGame: React.FC = ({ navigation: { navigate } }: Props) => {
   };
 
   useEffect(() => {
+    setStartTime(Date.now()); 
     console.log(bandera);
     console.log(nivelesCat[dropdownValue1][bandera].length);
     setPreviousImage(null);
@@ -289,6 +291,9 @@ const MemoryGame: React.FC = ({ navigation: { navigate } }: Props) => {
       playSound("correcta");
       confetti = true;
       showToastCorrect();
+      const endTime = Date.now();
+      const totalTime = Math.floor((endTime - (startTime ?? 0)) / 1000);
+      updateMemoryGameScore(bandera,totalTime,"SI",currentImage === previousImage ? "SI":"NO",dropdownTimeValue1,tiempoPrimerImagen,dropdownValue1)
 
     } else {
       console.log("Te equivocaste, no es lo correcto");
@@ -305,6 +310,10 @@ const MemoryGame: React.FC = ({ navigation: { navigate } }: Props) => {
       });
       confetti = false;
       showToastInCorrect();
+      const endTime = Date.now();
+      const totalTime = Math.floor((endTime - (startTime ?? 0)) / 1000);
+      updateMemoryGameScore(bandera,totalTime,"NO",currentImage === previousImage ? "SI":"NO",dropdownTimeValue1,tiempoPrimerImagen,dropdownValue1)
+
     }
     navigate("Again", { param1: previousImage, param2: currentImage });
   };
@@ -418,16 +427,6 @@ const MemoryGame: React.FC = ({ navigation: { navigate } }: Props) => {
                       )
                   }
                 </View>
-                <Text
-                  style={{
-                    fontSize: FontSize.large,
-                    color: Colors.primary,
-                    fontFamily: Fonts["Roboto-Bold"],
-                    textAlign: "center",
-                  }}
-                >
-                  Puntaje actual: {score.correct}
-                </Text>
                 {previousImage !== null && (
                   <View
                     style={{
@@ -469,10 +468,12 @@ const MemoryGame: React.FC = ({ navigation: { navigate } }: Props) => {
                     <TouchableOpacity
                       onPress={() => handleOptionSelected(currentImage !== previousImage)}
                       style={{
+                        backgroundColor: Colors.primary,
                         paddingVertical: Spacing * 1.5,
                         paddingHorizontal: Spacing * 2,
                         width: "48%",
                         borderRadius: Spacing,
+                        shadowColor: Colors.primary,
                         shadowOffset: {
                           width: 0,
                           height: Spacing,
@@ -484,7 +485,7 @@ const MemoryGame: React.FC = ({ navigation: { navigate } }: Props) => {
                       <Text
                         style={{
                           fontFamily: Fonts["Roboto-Bold"],
-                          color: Colors.text,
+                          color: Colors.onPrimary,
                           fontSize: FontSize.large,
                           textAlign: "center",
                         }}

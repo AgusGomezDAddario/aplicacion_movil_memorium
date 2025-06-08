@@ -1,13 +1,12 @@
+// screens/RegisterScreen.tsx
+
 import {
-  SafeAreaView,
-  StyleSheet,
   Text,
   ScrollView,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useContext, useState } from "react";
 import Spacing from "../constants/Spacing";
 import FontSize from "../constants/FontSize";
 import Colors from "../constants/Color";
@@ -16,54 +15,64 @@ import { Ionicons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types";
 import AppTextInput from "../AppTextInput";
-import { LoginContext } from './../context/LoginContext'
-import { useContext, useState } from 'react'
-import * as yup from 'yup';
+import { LoginContext } from "./../context/LoginContext";
+import * as yup from "yup";
 
 const validationSchema = yup.object().shape({
   email: yup
     .string()
-    .email("Please enter a valid email")
-    .required('Email is required'),
+    .email("Por favor, ingresa un email válido")
+    .required("El email es requerido"),
   password: yup
     .string()
-    .matches(/\w*[a-z]\w*/, "Password must have a lowercase letter")
-    .matches(/\w*[A-Z]\w*/, "Password must have an uppercase letter")
-    .matches(/\d/, "Password must have a number")
-    .min(8, ({ min }) => `Password must be at least ${min} characters`)
-    .required('Password is required'),
+    .matches(/\w*[a-z]\w*/, "La contraseña debe tener una letra minúscula")
+    .matches(/\w*[A-Z]\w*/, "La contraseña debe tener una letra mayúscula")
+    .matches(/\d/, "La contraseña debe tener un número")
+    .min(8, ({ min }) => `La contraseña debe tener al menos ${min} caracteres`)
+    .required("La contraseña es requerida"),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref('password')], 'Passwords do not match')
-    .required('Confirm password is required'),
+    .oneOf([yup.ref("password")], "Las contraseñas no coinciden")
+    .required("Confirma la contraseña es requerida"),
+  name: yup.string().required("El nombre es requerido"),
+  age: yup.number().required("La edad es requerida").positive().integer(),
+  dni: yup
+    .string()
+    .required("El DNI es requerido")
+    .length(8, "El DNI debe tener 8 caracteres"),
 });
 
 type Props = NativeStackScreenProps<RootStackParamList, "Register">;
 
 const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
-
-  const { register, googleLogin, facebookLogin } = useContext(LoginContext)
+  const { register, googleLogin, facebookLogin } = useContext(LoginContext);
 
   const [values, setValues] = useState({
-    email: '',
-    password: '',
-    confirmPassword: ''
-  })
+    email: "",
+    password: "",
+    confirmPassword: "",
+    name: "",
+    age: "",
+    dni: "",
+  });
 
   const [errors, setErrors] = useState({
     email: "",
     password: "",
     confirmPassword: "",
+    name: "",
+    age: "",
+    dni: "",
   });
 
-  const clearError = (name) => {
+  const clearError = (name: string) => {
     setErrors((prevErrors) => ({
       ...prevErrors,
       [name]: "",
     }));
   };
 
-  const handleInputChange = (name, value) => {
+  const handleInputChange = (name: string, value: string) => {
     setValues({
       ...values,
       [name]: value,
@@ -71,20 +80,29 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
     clearError(name);
   };
 
-  const handleSubmit = async (Formvalues) => {
+  const handleSubmit = async (Formvalues: any) => {
     try {
-      await validationSchema.validate(Formvalues, { abortEarly: false });
+      // Convertir 'age' a número
+      const processedValues = {
+        ...Formvalues,
+        age: Number(Formvalues.age),
+      };
+  
+      await validationSchema.validate(processedValues, { abortEarly: false });
       setErrors({
         email: "",
         password: "",
         confirmPassword: "",
+        name: "",
+        age: "",
+        dni: "",
       });
-      console.log("Form data:", Formvalues);
-      register(Formvalues);
-    } catch (error) {
+      console.log("Form data:", processedValues);
+      register(processedValues);
+    } catch (error: any) {
       if (error.inner) {
-        const newErrors = {};
-        error.inner.forEach((err) => {
+        const newErrors: any = {};
+        error.inner.forEach((err: any) => {
           newErrors[err.path] = err.message;
         });
         setErrors((prevErrors) => ({
@@ -98,16 +116,8 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <View
-        style={{
-          padding: Spacing * 2,
-        }}
-      >
-        <View
-          style={{
-            alignItems: "center",
-          }}
-        >
+      <View style={{ padding: Spacing * 2 }}>
+        <View style={{ alignItems: "center" }}>
           <Text
             style={{
               fontSize: FontSize.xLarge,
@@ -126,40 +136,94 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               textAlign: "center",
             }}
           >
-            Crea una cuenta asi podes disfrutar de los mejores juegos
+            Crea una cuenta así puedes disfrutar de los mejores juegos
           </Text>
         </View>
-        <View
-          style={{
-            marginVertical: Spacing * 3,
-          }}
-        >
+        <View style={{ marginVertical: Spacing * 3 }}>
+          <AppTextInput
+            value={values.name}
+            onChangeText={(text) => handleInputChange("name", text)}
+            placeholder="Nombre"
+          />
+          {errors.name.length > 0 && (
+            <Text style={{ color: "red" }}>{errors.name}</Text>
+          )}
+
+          <AppTextInput
+            value={values.age}
+            onChangeText={(text) => handleInputChange("age", text)}
+            placeholder="Edad"
+            keyboardType="numeric"
+          />
+          {errors.age.length > 0 && (
+            <Text style={{ color: "red" }}>{errors.age}</Text>
+          )}
+
+          <AppTextInput
+            value={values.dni}
+            onChangeText={(text) => handleInputChange("dni", text)}
+            placeholder="DNI"
+          />
+          {errors.dni.length > 0 && (
+            <Text style={{ color: "red" }}>{errors.dni}</Text>
+          )}
+
           <AppTextInput
             value={values.email}
             onChangeText={(text) => handleInputChange("email", text)}
             placeholder="Email"
+            keyboardType="email-address"
           />
-
-          {errors.email.length > 0 && <Text style={{ color: "red", fontFamily: Fonts["poppins-semiBold"], fontSize: FontSize.small, marginTop: 5 }}>{errors.email}</Text>}
-
+          {errors.email.length > 0 && (
+            <Text
+              style={{
+                color: "red",
+                fontFamily: Fonts["poppins-semiBold"],
+                fontSize: FontSize.small,
+                marginTop: 5,
+              }}
+            >
+              {errors.email}
+            </Text>
+          )}
 
           <AppTextInput
-            placeholder="Password"
+            placeholder="Contraseña"
             secureTextEntry
             value={values.password}
             onChangeText={(text) => handleInputChange("password", text)}
           />
-          {errors.password.length > 0 && <Text style={{ color: "red", fontFamily: Fonts["poppins-semiBold"], fontSize: FontSize.small, marginTop: 5 }}>{errors.password}</Text>}
+          {errors.password.length > 0 && (
+            <Text
+              style={{
+                color: "red",
+                fontFamily: Fonts["poppins-semiBold"],
+                fontSize: FontSize.small,
+                marginTop: 5,
+              }}
+            >
+              {errors.password}
+            </Text>
+          )}
 
           <AppTextInput
-            placeholder="Confirm Password"
+            placeholder="Confirmar Contraseña"
             secureTextEntry
             value={values.confirmPassword}
             onChangeText={(text) => handleInputChange("confirmPassword", text)}
           />
-
-          {errors.confirmPassword.length > 0 && <Text style={{ color: "red", fontFamily: Fonts["poppins-semiBold"], fontSize: FontSize.small, marginTop: 5 }}>{errors.confirmPassword}</Text>}
-
+          {errors.confirmPassword.length > 0 && (
+            <Text
+              style={{
+                color: "red",
+                fontFamily: Fonts["poppins-semiBold"],
+                fontSize: FontSize.small,
+                marginTop: 5,
+              }}
+            >
+              {errors.confirmPassword}
+            </Text>
+          )}
         </View>
 
         <TouchableOpacity
@@ -176,6 +240,8 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
             },
             shadowOpacity: 0.3,
             shadowRadius: Spacing,
+            alignSelf: "center", 
+            width: "70%",
           }}
         >
           <Text
@@ -186,14 +252,12 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
               fontSize: FontSize.large,
             }}
           >
-            Sign up
+            Registrarse
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigate("Login")}
-          style={{
-            padding: Spacing,
-          }}
+          style={{ padding: Spacing }}
         >
           <Text
             style={{
@@ -207,75 +271,6 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
           </Text>
         </TouchableOpacity>
 
-        <View
-          style={{
-            marginVertical: Spacing * 3,
-          }}
-        >
-          <Text
-            style={{
-              fontFamily: Fonts["Roboto-Light"],
-              color: Colors.primary,
-              textAlign: "center",
-              fontSize: FontSize.small,
-            }}
-          >
-            Or continue with
-          </Text>
-
-          <View
-            style={{
-              marginTop: Spacing,
-              flexDirection: "row",
-              justifyContent: "center",
-            }}
-          >
-            <TouchableOpacity
-              style={{
-                padding: Spacing,
-                backgroundColor: Colors.gray,
-                borderRadius: Spacing / 2,
-                marginHorizontal: Spacing,
-              }}
-              onPress={googleLogin}
-            >
-              <Ionicons
-                name="logo-google"
-                color={Colors.text}
-                size={Spacing * 2}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                padding: Spacing,
-                backgroundColor: Colors.gray,
-                borderRadius: Spacing / 2,
-                marginHorizontal: Spacing,
-              }}
-            >
-              <Ionicons
-                name="logo-apple"
-                color={Colors.text}
-                size={Spacing * 2}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={facebookLogin}
-              style={{
-                padding: Spacing,
-                backgroundColor: Colors.gray,
-                borderRadius: Spacing / 2,
-                marginHorizontal: Spacing,
-              }}
-            >
-              <Ionicons
-                name="logo-facebook"
-                color={Colors.text}
-                size={Spacing * 2}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
       </View>
     </ScrollView>
   );

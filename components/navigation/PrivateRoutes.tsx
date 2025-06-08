@@ -15,13 +15,27 @@ import { RootStackParamList } from "../../types";
 import MemoryGame from "../screens/MemoryGame";
 import Again from "../screens/Again";
 import CategoriesScreen from "../screens/Categories";
-import IntruccionesJuego2Screen from "../screens/InstructionsGame2";
-import InstruccionesJuego1Screen from "../screens/InstruccionesJuego1";
+import IntruccionesJuego2Screen from "../screens/NumeriumInformation";
+import InstruccionesJuego1Screen from "../screens/MemoryGameInformation";
+import InstruccionesJuego3Screen from "../screens/ContrariumInformation";
+import InstruccionesJuego5Screen from "../screens/AbecedariumInformation";
+import InstruccionesJuegoOrderiumScreen from "../screens/OrderiumInformation";
 import EstadisticasJuego1Screen from "../screens/StatisticsGame1";
 import ForgotPasswordScreen from "../screens/ForgotPassword";
 import NumberGame from "../screens/NumberGame";
-import InformationScreen from "../screens/Information";
+import GonoGoGame from "../screens/GonoGoGame";
+import OrderiumGame from "../screens/OrderiumGame";
+import AbecedarioGame from "../screens/AbecedarioGame";
+import InformationScreen from "../screens/Informacion";
 import Tutorial1Screen from "../screens/Tutorial1";
+import InformationJuego1 from "../screens/MemoryGameConozca";
+import InformationJuego2 from "../screens/NumeriumConozca";
+import InformationJuego3 from "../screens/ContrariumConozca";
+import InformationJuego4 from "../screens/OrderiumConozca";
+import InformationJuego5 from "../screens/AbecedariumConozca";
+import TutorialOrderium from "../screens/TutorialOrderium";
+import TutorialGoNoGo from "../screens/TutorialGoNoGo";
+import TutorialAbecedarium from "../screens/TutorialAbecedarium";
 
 
 /* const theme = {
@@ -86,12 +100,12 @@ function HomeStack() {
       <Stack.Screen
         name="Main"
         component={MainScreen}
-        options={{ title: 'Home Page' }}
+        options={{ title: 'Inicio' }}
       />
       <Stack.Screen
         name="UserProfile"
         component={UserProfileScreen}
-        options={{ title: 'User Profile' }}
+        options={{ title: 'Perfil' }}
       />
       <Stack.Screen
         name="Categories"
@@ -106,7 +120,22 @@ function HomeStack() {
       <Stack.Screen
         name="InstruccionesJuego2"
         component={IntruccionesJuego2Screen}
-        options={{ title: 'Instrucciones2' }}
+        options={{ title: 'Instrucciones' }}
+      />
+      <Stack.Screen
+        name="InstruccionesJuego3"
+        component={InstruccionesJuego3Screen}
+        options={{ title: 'Instrucciones' }}
+      />
+      <Stack.Screen
+        name="InstruccionesJuego5"
+        component={InstruccionesJuego5Screen}
+        options={{ title: 'Instrucciones' }}
+      />
+      <Stack.Screen
+        name="InstruccionesJuegoOrderium"
+        component={InstruccionesJuegoOrderiumScreen}
+        options={{ title: 'Instrucciones' }}
       />
       <Stack.Screen
         name="MemoryGame"
@@ -134,14 +163,69 @@ function HomeStack() {
         options={{ title: 'Numerium' }}
       />
       <Stack.Screen
-        name="Information"
+        name="GonoGoGame"
+        component={GonoGoGame}
+        options={{ title: 'Contrarium' }}
+      />
+      <Stack.Screen
+        name="OrderiumGame"
+        component={OrderiumGame}
+        options={{ title: 'Orderium' }}
+      />
+      <Stack.Screen
+        name="AbecedarioGame"
+        component={AbecedarioGame}
+        options={{ title: 'Abecedarium' }}
+      />
+      <Stack.Screen
+        name="Informacion"
         component={InformationScreen}
-        options={{ title: 'Information' }}
+        options={{ title: 'Informacion' }}
       />
       <Stack.Screen
         name="Tutorial1"
         component={Tutorial1Screen}
         options={{ title: 'Tutorial 1' }}
+      />
+      <Stack.Screen
+        name="InformationJuego1"
+        component={InformationJuego1}
+        options={{ title: 'Información' }}
+      />
+      <Stack.Screen
+        name="InformationJuego2"
+        component={InformationJuego2}
+        options={{ title: 'Información' }}
+      />
+      <Stack.Screen
+        name="InformationJuego3"
+        component={InformationJuego3}
+        options={{ title: 'Información' }}
+      />
+      <Stack.Screen
+        name="InformationJuego4"
+        component={InformationJuego4}
+        options={{ title: 'Información' }}
+      />
+      <Stack.Screen
+      name="InformationJuego5"
+      component={InformationJuego5}
+      options={{ title: 'Información' }}
+    />
+      <Stack.Screen
+        name="TutorialOrderium"
+        component={TutorialOrderium}
+        options={{ title: 'Tutorial' }}
+      />
+      <Stack.Screen
+        name="TutorialAbecedarium"
+        component={TutorialAbecedarium}
+        options={{ title: 'Tutorial' }}
+      />
+      <Stack.Screen
+        name="TutorialGoNoGo"
+        component={TutorialGoNoGo}
+        options={{ title: 'Tutorial' }}
       />
     </Stack.Navigator>
   );
@@ -159,7 +243,7 @@ function SettingsStack() {
       <Stack.Screen
         name="UserProfile"
         component={UserProfileScreen}
-        options={{ title: 'User Page' }}
+        options={{ title: 'Perfil' }}
       />
     </Stack.Navigator>
   );
@@ -177,7 +261,7 @@ function RootNavigatorPrivate() {
           name="Hola"
           component={HomeStack}
           options={{
-            tabBarLabel: 'Home',
+            tabBarLabel: 'Inicio',
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="home" color={color} size={size} />
             ),
@@ -188,7 +272,7 @@ function RootNavigatorPrivate() {
           name="SettingsStack"
           component={SettingsStack}
           options={{
-            tabBarLabel: 'Profile',
+            tabBarLabel: 'Perfil',
             tabBarIcon: ({ color, size }) => (
               <FontAwesome name="user" size={24} color={color} />
             ),

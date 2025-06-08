@@ -25,11 +25,25 @@ export type RootStackParamList = {
   Categories: undefined;
   InstruccionesJuego2: undefined;
   InstruccionesJuego1: undefined;
+  InstruccionesJuego3: undefined;
+  InstruccionesJuego5: undefined;
+  InstruccionesJuegoOrderium: undefined;
   EstadisticasJuego1: undefined;
   ForgotPassword: undefined;
   NumberGame:undefined;
-  Information:undefined;
+  GonoGoGame:undefined;
+  OrderiumGame:undefined;
+  AbecedarioGame:undefined;
+  Informacion:undefined;
   Tutorial1:undefined;
+  InformationJuego1:undefined;
+  InformationJuego2:undefined;
+  InformationJuego3:undefined;
+  InformationJuego4:undefined;
+  InformationJuego5:undefined;
+  TutorialOrderium:undefined;
+  TutorialGoNoGo:undefined;
+  TutorialAbecedarium:undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

@@ -1,3 +1,5 @@
+// UserProfile.tsx
+
 import React, { useContext, useState } from "react";
 import {
   SafeAreaView,
@@ -41,14 +43,15 @@ function UserProfileScreen({ navigation: { navigate } }: Props) {
   const { logout, user } = useContext(LoginContext);
   const { score } = useContext(ScoreContext);
   const [modalVisible, setModalVisible] = useState(false);
-  const total = score.correct + score.incorrect;
-  console.log(score)
-  const juegosPuntajes = [
-    {
-      title: 'Resultados Memory Game',
-      data: ['Correctas: ' + score.correct, 'Incorrectas: ' + score.incorrect, 'Precisión: ' + Math.trunc((score.correct / total) * 100) + '%']
-    }
-  ];
+
+  if (!score || !score.achievements) {
+    console.log(score);
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.loadingText}>Cargando información...</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -56,8 +59,10 @@ function UserProfileScreen({ navigation: { navigate } }: Props) {
         <ImageBackground
           style={{
             height: height / 5,
+            width: height / 5, 
             marginVertical: Spacing * 2.3,
-            marginBottom: Spacing
+            marginBottom: Spacing,
+            alignSelf: "center", 
           }}
           resizeMode="contain"
           source={require("./../../assets/images/user.png")}
@@ -73,56 +78,97 @@ function UserProfileScreen({ navigation: { navigate } }: Props) {
               marginTop: Spacing,
             }}
           >
-            {user.email}
+            {score.name || "Nombre no disponible"} {/* Manejar caso de name indefinido */}
           </Text>
 
           <View style={{ marginTop: Spacing * 2 }}>
-            <Text style={styles.header}>Resultados Memory Game</Text>
+            <Text style={styles.header}>Resultados</Text>
             <View style={styles.itemContainer}>
-              <View style={styles.item}>
+              {/* <View style={styles.item}>
                 <Text>Acertadas</Text>
                 <Text>{score.correct}</Text>
-              </View>
+              </View> */}
               <View style={styles.item}>
-                <Text>Racha de dias Jugados:</Text>
+                <Text>Racha de días Jugados:</Text>
                 <Text>{score.racha}</Text>
               </View>
               <View style={styles.item}>
                 <Text>Juega desde:</Text>
-                <Text>{`${user.creacion.substring(user.creacion.indexOf(",") + 2, user.creacion.lastIndexOf("GMT") - 9)}`}</Text>
+                <Text>
+                  {user.creacion
+                    ? `${new Date(user.creacion).toLocaleDateString()}`
+                    : "Fecha no disponible"} {/* Manejar caso de creacion indefinida */}
+                </Text>
               </View>
             </View>
           </View>
 
-          <Text style={styles.logrosTitulo}>
-            Tus Logros
-          </Text>
-          <Text style={styles.logrosSubtitulo}>
-            Puntos Diarios
-          </Text>
+          <Text style={styles.logrosTitulo}>Tus Logros</Text>
+          <Text style={styles.logrosSubtitulo}>Puntos Diarios</Text>
           <View style={styles.logrosContainer}>
-            <Image style={{ width: 100, height: 100, }} source={score.achievements.indexOf("1stToday") !== -1 ? image1 : placeHolder} />
-            <Image style={{ width: 100, height: 100, }} source={score.achievements.indexOf("10thToday") !== -1 ? image2 : placeHolder} />
-            <Image style={{ width: 100, height: 100, }} source={score.achievements.indexOf("25thToday") !== -1 ? image3 : placeHolder} />
-            <Image style={{ width: 100, height: 100, }} source={score.achievements.indexOf("50thToday") !== -1 ? image4 : placeHolder} />
+            <Image
+              style={{ width: 100, height: 100 }}
+              source={
+                score.achievements.includes("1stToday") ? image1 : placeHolder
+              }
+            />
+            <Image
+              style={{ width: 100, height: 100 }}
+              source={
+                score.achievements.includes("10thToday") ? image2 : placeHolder
+              }
+            />
+            <Image
+              style={{ width: 100, height: 100 }}
+              source={
+                score.achievements.includes("25thToday") ? image3 : placeHolder
+              }
+            />
+            <Image
+              style={{ width: 100, height: 100 }}
+              source={
+                score.achievements.includes("50thToday") ? image4 : placeHolder
+              }
+            />
           </View>
-          <Text style={styles.logrosSubtitulo}>
-            Puntos Totales
-          </Text>
+          <Text style={styles.logrosSubtitulo}>Puntos Totales</Text>
           <View style={styles.logrosContainer}>
-            <Image style={{ width: 100, height: 100, }} source={score.achievements.indexOf("50Total") !== -1 ? image5 : placeHolder} />
-            <Image style={{ width: 100, height: 100, }} source={score.achievements.indexOf("150Total") !== -1 ? image6 : placeHolder} />
-            <Image style={{ width: 100, height: 100, }} source={score.achievements.indexOf("500Total") !== -1 ? image7 : placeHolder} />
-            <Image style={{ width: 100, height: 100, }} source={score.achievements.indexOf("1000Total") !== -1 ? image8 : placeHolder} />
+            <Image
+              style={{ width: 100, height: 100 }}
+              source={
+                score.achievements.includes("50Total") ? image5 : placeHolder
+              }
+            />
+            <Image
+              style={{ width: 100, height: 100 }}
+              source={
+                score.achievements.includes("150Total") ? image6 : placeHolder
+              }
+            />
+            <Image
+              style={{ width: 100, height: 100 }}
+              source={
+                score.achievements.includes("500Total") ? image7 : placeHolder
+              }
+            />
+            <Image
+              style={{ width: 100, height: 100 }}
+              source={
+                score.achievements.includes("1000Total") ? image8 : placeHolder
+              }
+            />
           </View>
-
 
           <View style={styles.buttonContainer_Boton}>
             <TouchableOpacity
               onPress={() => setModalVisible(true)}
               style={styles.logoutButton}
             >
-              <Ionicons name="log-out" color={Colors.text} size={Spacing * 2} />
+              <Ionicons
+                name="log-out"
+                color={Colors.text}
+                size={Spacing * 2}
+              />
             </TouchableOpacity>
           </View>
           <View style={styles.centeredView}>
@@ -130,12 +176,13 @@ function UserProfileScreen({ navigation: { navigate } }: Props) {
               animationType="fade"
               transparent={true}
               visible={modalVisible}
-              onRequestClose={() => {
-              }}
+              onRequestClose={() => {}}
             >
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                  <Text style={styles.modalText}>¿Desea cerrar la sesión actual?</Text>
+                  <Text style={styles.modalText}>
+                    ¿Desea cerrar la sesión actual?
+                  </Text>
                   <View style={styles.buttonContainer_Modal}>
                     <View style={styles.buttonWrapper}>
                       <Pressable
@@ -160,15 +207,15 @@ function UserProfileScreen({ navigation: { navigate } }: Props) {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView >
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 22,
   },
   modalContent: {
@@ -208,7 +255,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     display: "flex",
     flexWrap: "wrap",
-    marginHorizontal: Spacing * 2
+    marginHorizontal: Spacing * 2,
   },
   button: {
     borderRadius: 10,
@@ -219,9 +266,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    color: Color.onPrimary,
   },
   buttonOpen: {
-    backgroundColor: Color.second_gray,
+    backgroundColor: Color.primary,
   },
   buttonClose: {
     backgroundColor: "#FF0000",
@@ -232,7 +280,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   textStyle_2: {
-    color: Color.text,
+    color: "white",
     fontFamily: "Roboto-Bold",
     textAlign: "center",
   },
@@ -240,7 +288,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center",
     color: Color.primary,
-    fontFamily: "Roboto-Bold"
+    fontFamily: "Roboto-Bold",
   },
   container: {
     flex: 1,
@@ -250,11 +298,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   itemContainer: {
-    justifyContent: 'center',
-    flexDirection: 'row',
+    justifyContent: "center",
+    flexDirection: "row",
   },
   item: {
-    justifyContent: 'center',
+    justifyContent: "center",
     backgroundColor: Color.gray,
     borderWidth: 1,
     borderRadius: 10,
@@ -262,7 +310,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     fontFamily: Fonts["Roboto-Bold"],
     fontSize: 12,
-    textAlign: 'center',
+    textAlign: "center",
     flex: 1,
   },
   header: {
@@ -284,23 +332,30 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   logrosTitulo: {
-    textAlign: 'center',
+    textAlign: "center",
     marginVertical: Spacing * 3,
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
     fontFamily: Fonts["Roboto-Bold"],
     fontSize: 20,
   },
   logrosSubtitulo: {
     marginVertical: Spacing,
-    fontFamily: Fonts["Roboto-Bold"]
+    fontFamily: Fonts["Roboto-Bold"],
   },
   logrosContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
     borderWidth: 3,
     borderColor: Color.primary,
     borderRadius: 10,
+  },
+  loadingText: {
+    fontSize: FontSize.large,
+    color: Colors.text,
+    textAlign: "center",
+    marginTop: Spacing * 2,
+    fontFamily: Fonts["Roboto-Regular"],
   },
 });
 

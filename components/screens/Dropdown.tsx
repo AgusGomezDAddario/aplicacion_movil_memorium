@@ -67,7 +67,6 @@ import React, { useState } from 'react';
       height: 50,
       backgroundColor: 'white',
       borderRadius: 12,
-      activeColor: Colors.primary,
       padding: 12,
       shadowColor: '#000',
       shadowOffset: {

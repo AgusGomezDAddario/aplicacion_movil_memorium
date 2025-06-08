@@ -58,17 +58,17 @@ import {
               style={{
                 fontSize: FontSize.xLarge,
                 color: Colors.primary,
-                fontFamily: Fonts["Roboto-Bold"],
+                fontFamily: Fonts["poppins-bold"],
                 marginVertical: Spacing * 3,
               }}
             >
-              Login here
+              Inicie Sesión
             </Text>
             <Text
               style={{
-                fontFamily: Fonts["Roboto-Light"],
-                fontSize: FontSize.large,
-                maxWidth: "60%",
+                fontFamily: Fonts["poppins-regular"],
+                fontSize: FontSize.small,
+                maxWidth: "80%",
                 textAlign: "center",
               }}
             >
@@ -122,6 +122,8 @@ import {
               },
               shadowOpacity: 0.3,
               shadowRadius: Spacing,
+              alignSelf: "center", 
+              width: "70%",
             }}
           >
             <Text
@@ -132,7 +134,7 @@ import {
                 fontSize: FontSize.large,
               }}
             >
-              Sign in
+              Iniciar
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -143,85 +145,16 @@ import {
           >
             <Text
               style={{
-                fontFamily: Fonts["Roboto-Light"],
+                fontFamily: Fonts["poppins-semiBold"],
                 color: Colors.text,
                 textAlign: "center",
                 fontSize: FontSize.small,
               }}
             >
-              Create new account
+              Crear nueva cuenta
             </Text>
           </TouchableOpacity>
-  
-          <View
-            style={{
-              marginVertical: Spacing * 3,
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: Fonts["Roboto-Light"],
-                color: Colors.primary,
-                textAlign: "center",
-                fontSize: FontSize.small,
-              }}
-            >
-              Or continue with
-            </Text>
-  
-            <View
-              style={{
-                marginTop: Spacing,
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
-              <TouchableOpacity
-              onPress={googleLogin}
-                style={{
-                  padding: Spacing,
-                  backgroundColor: Colors.gray,
-                  borderRadius: Spacing / 2,
-                  marginHorizontal: Spacing,
-                }}
-              >
-                <Ionicons
-                  name="logo-google"
-                  color={Colors.text}
-                  size={Spacing * 2}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  padding: Spacing,
-                  backgroundColor: Colors.gray,
-                  borderRadius: Spacing / 2,
-                  marginHorizontal: Spacing,
-                }}
-              >
-                <Ionicons
-                  name="logo-apple"
-                  color={Colors.text}
-                  size={Spacing * 2}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={facebookLogin}
-                style={{
-                  padding: Spacing,
-                  backgroundColor: Colors.gray,
-                  borderRadius: Spacing / 2,
-                  marginHorizontal: Spacing,
-                }}
-              >
-                <Ionicons
-                  name="logo-facebook"
-                  color={Colors.text}
-                  size={Spacing * 2}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
+
         </View>
         </ScrollView>
     );

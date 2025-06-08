@@ -18,10 +18,22 @@ import { ScoreContext } from "../context/ScoreContext";
 import Toast from 'react-native-root-toast';
 import DogLoader from "./Loader2";
 import NewLoader from "./Loader3";
+import ConfettiCannon from "react-native-confetti-cannon";
 const { height } = Dimensions.get("window");
 const { width } = Dimensions.get("window");
 type Props = NativeStackScreenProps<RootStackParamList, "NumberGame">;
-const NumberGame: React.FC<Props> = ({ navigation: { navigate } }: Props) => {
+const NumberGame: React.FC<Props> = ({ route, navigation: { navigate } }: Props) => {
+
+  const {
+    digitDisplayTime = 1000, // valor por defecto de 1000ms
+    distractorTime = 2000,    // valor por defecto de 2000ms
+    numberOfDigits = 3        // valor por defecto de 3 dígitos
+  } = route.params || {};
+
+  // Variables configurables
+  const digitDisplay= digitDisplayTime; // Tiempo de visualización de cada dígito (en milisegundos)
+  const distractor= distractorTime; // Tiempo del distractor (en milisegundos)
+  const numberDigits = numberOfDigits; // Número de dígitos a mostrar
 
   const [number, setNumber] = useState(0);
   let arregloNumeros: number[] = [];
@@ -33,61 +45,41 @@ const NumberGame: React.FC<Props> = ({ navigation: { navigate } }: Props) => {
   const [finalNumber, setFinalNumber] = useState(0);
   const [resultado, setResultado] = useState(false);
   const [valor, setValor] = useState(0);
-  const { score, updateScore, setScore } = useContext(ScoreContext)
+  const [shoot, setShoot] = useState(false);
+  const { score, updateScore, setScore, setCurrentScore, updateNumeriumScore } = useContext(ScoreContext)
+
+  const [startTime, setStartTime] = useState<number | null>(null);
 
   useEffect(() => {
+    setStartTime(Date.now()); // Iniciamos el temporizador
     let randomNumber = Math.floor(Math.random() * 10);
     setNumber(randomNumber);
     arregloNumeros.push(randomNumber);
-    const numero1 = setTimeout(() => {
-      setLoader(true);
-      randomNumber = Math.floor(Math.random() * 10);
-      setNumber(randomNumber);
-      arregloNumeros.push(randomNumber);
-    }, 1000);
-
-    const numero2 = setTimeout(() => {
-      setLoader(false);
-    }, 2000);
-
-    const numero3 = setTimeout(() => {
-      setLoader(true);
-      randomNumber = Math.floor(Math.random() * 10);
-      setNumber(randomNumber);
-      arregloNumeros.push(randomNumber);
-    }, 3000);
-
-    const numero4 = setTimeout(() => {
-      setLoader(false);
-    }, 4000);
-
-    const numero5 = setTimeout(() => {
-      setLoader(true);
-      randomNumber = Math.floor(Math.random() * 10);
-      setNumber(randomNumber);
-      arregloNumeros.push(randomNumber);
-    }, 5000);
-
-    const numero6 = setTimeout(() => {
-      setLoader(false);
-    }, 6000);
-
-    const numero7 = setTimeout(() => {
+  
+    for (let i = 1; i < numberOfDigits; i++) {
+  
+      setTimeout(() => {
+        setLoader(true);
+        randomNumber = Math.floor(Math.random() * 10);
+        setNumber(randomNumber);
+        arregloNumeros.push(randomNumber);
+      }, i * digitDisplayTime + distractorTime * (i - 1));
+  
+      setTimeout(() => {
+        setLoader(false);
+      }, i * digitDisplayTime + distractorTime * i);
+    }
+  
+    const finalTimeout = setTimeout(() => {
       setUltimo(true);
       setMiArreglo([...arregloNumeros]);
-      console.log(arregloNumeros)
-    }, 7000);
-
+      console.log(arregloNumeros);
+    }, (numberOfDigits - 1) * (digitDisplayTime + distractorTime) + digitDisplayTime); // Corrigiendo el último dígito
+  
     return () => {
-      clearTimeout(numero1);
-      clearTimeout(numero2);
-      clearTimeout(numero3);
-      clearTimeout(numero4);
-      clearTimeout(numero5);
-      clearTimeout(numero6);
-      clearTimeout(numero7);
-    }
-  }, [valor,setValor]);
+      clearTimeout(finalTimeout);
+    };
+  }, [valor, digitDisplayTime, distractorTime, numberOfDigits]);
 
   const handleInputChange = (text) => {
     setNumber2(parseInt(text));
@@ -129,12 +121,71 @@ const NumberGame: React.FC<Props> = ({ navigation: { navigate } }: Props) => {
     const concatenatedNumber = miArreglo.map(String).join("");
     if (number2 === parseInt(concatenatedNumber, 10)) {
       setResultado(true);
+      const endTime = Date.now();
+      const totalTime = Math.floor((endTime - (startTime ?? 0)) / 1000);
+      updateNumeriumScore(numberOfDigits, totalTime, contadorFalldios+1, digitDisplayTime, distractorTime);
+
+      if (score.correct + 1 >= 50) {
+        if (score.achievements.indexOf("50Total") === -1) {
+          score.achievements.push("50Total");
+        }
+        if (score.correct + 1 >= 150){
+          if (score.achievements.indexOf("150Total") === -1) {
+            score.achievements.push("150Total");
+          }
+          if (score.correct + 1 >= 500){
+            if (score.achievements.indexOf("500Total") === -1) {
+              score.achievements.push("500Total");
+            }
+            if (score.correct + 1 >= 1000){
+              if (score.achievements.indexOf("1000Total") === -1) {
+                score.achievements.push("1000Total");
+              }
+            }
+          }
+        }
+      }
+
+      switch (score.scoreToday + 1) {
+        case 1:
+          if (score.achievements.indexOf("1stToday") === -1) {
+            score.achievements.push("1stToday");
+          }
+          break;
+        case 10:
+          if (score.achievements.indexOf("10thToday") === -1) {
+            score.achievements.push("10thToday");
+          }
+          break;
+        case 25:
+          if (score.achievements.indexOf("25thToday") === -1) {
+            score.achievements.push("25thToday");
+          }
+          break;
+        case 50:
+          if (score.achievements.indexOf("50thToday") === -1) {
+            score.achievements.push("50thToday");
+          }
+          break;
+        default:
+          break;
+      }
+
+      setShoot(true); // Enciende el cañón
+      setTimeout(() => {
+        setShoot(false); // Apaga el cañón después de un tiempo (opcional)
+      }, 5000); 
+
       showToastCorrect();
       setScore(prevScore => ({
         ...prevScore,
         correct: score.correct + 1,
+        scoreToday: score.scoreToday + 1,
         incorrect: score.incorrect,
       }));
+      setCurrentScore(prevArray => {
+        return [...prevArray, prevArray[prevArray.length - 1] + 1];
+      });
     } else {
       setResultado(false);
       showToastInCorrect();
@@ -158,6 +209,7 @@ const NumberGame: React.FC<Props> = ({ navigation: { navigate } }: Props) => {
     setFinalNumber(0);
     setResultado(false);
     setValor(valor+1);
+    setStartTime(Date.now());
   };
 
   function NumberDisplay({ numbers }) {
@@ -174,14 +226,14 @@ const NumberGame: React.FC<Props> = ({ navigation: { navigate } }: Props) => {
           textAlign: "center",
           marginTop: Spacing * 4,
         }}>
-          El numero era: {finalNumber}
+          El número era: {finalNumber}
         </Text>)}
       </View>
     );
   }
 
   function JugarDenuevo() {
-    updateScore(score.correct, score.incorrect);
+    updateScore(score.correct, score.incorrect, score.achievements, score.scoreToday, null, null);
     return(
       <View
         style={{
@@ -262,6 +314,24 @@ const NumberGame: React.FC<Props> = ({ navigation: { navigate } }: Props) => {
   return (
     <ScrollView>
       <View>
+      <View
+        style={{
+          position: "absolute",
+          height: "100%",
+          top: 0,
+          left: 0,
+        }}
+        >
+          {shoot && (
+            <ConfettiCannon
+              count={200}
+              origin={{ x:width/2, y: 0 }}
+              explosionSpeed={1000}
+              fallSpeed={2000}
+              fadeOut={true}
+            />
+          )}
+        </View>
         {
           loader === true ? (<View>
             <View
@@ -278,7 +348,7 @@ const NumberGame: React.FC<Props> = ({ navigation: { navigate } }: Props) => {
                   textAlign: "center",
                 }}
               >
-                No te olvides el numero!
+                No te olvides el número!
               </Text>
             </View>
             <View
@@ -307,7 +377,7 @@ const NumberGame: React.FC<Props> = ({ navigation: { navigate } }: Props) => {
                         textAlign: "center",
                       }}
                     >
-                      Recuerda este Numero!
+                      Recuerda este Número!
                     </Text>
                     <View
                       style={{
@@ -333,6 +403,7 @@ const NumberGame: React.FC<Props> = ({ navigation: { navigate } }: Props) => {
                       paddingTop: Spacing * 4,
                     }}
                   >
+
                     <Text
                       style={{
                         fontSize: FontSize.xxLarge,
@@ -341,12 +412,14 @@ const NumberGame: React.FC<Props> = ({ navigation: { navigate } }: Props) => {
                         textAlign: "center",
                       }}
                     >
-                      ¿Cual es el numero?
+                      ¿Cual es el número?
                     </Text>
                     <NumberDisplay numbers={arregloNumeros} />
                     <View
                       style={{
                         marginVertical: Spacing * 3,
+                        alignSelf: "center", 
+                        width: "70%",
                       }}
                     >
                       {!resultado && (
@@ -371,6 +444,8 @@ const NumberGame: React.FC<Props> = ({ navigation: { navigate } }: Props) => {
                           },
                           shadowOpacity: 0.3,
                           shadowRadius: Spacing,
+                          alignSelf: "center", 
+                          width: "70%",
                         }}
                       >
                         <Text
@@ -410,7 +485,7 @@ const NumberGame: React.FC<Props> = ({ navigation: { navigate } }: Props) => {
                             fontSize: FontSize.large,
                           }}
                         >
-                          Probar con otro numero
+                          Probar con otro número
                         </Text>
                       </TouchableOpacity>
                       )}

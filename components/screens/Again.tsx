@@ -30,7 +30,7 @@ type Props = NativeStackScreenProps<RootStackParamList, "Again">;
 
 const Again: React.FC<Props> = ({ navigation: { navigate }, route }) =>{
   const { logout, user } = useContext(LoginContext);
-  const { score, updateScore } = useContext(ScoreContext)
+  const { score, updateScore, updateMemoryGameScore } = useContext(ScoreContext)
   const { param1, param2 } = route.params;
 
   const [shoot, setShoot] = useState(false);
@@ -46,11 +46,11 @@ const Again: React.FC<Props> = ({ navigation: { navigate }, route }) =>{
   }, [confetti]); // Ejecutar el efecto cada vez que la variable cambie
 
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor:"white"}}>
       <View>
         <Carru param1={param1} param2={param2} />
       </View>
-      <View style={{backgroundColor:"white"}}>
+      <View >
         <View
         style={{
           position: "absolute",
@@ -102,7 +102,7 @@ const Again: React.FC<Props> = ({ navigation: { navigate }, route }) =>{
               backgroundColor: Colors.primary,
               paddingVertical: Spacing * 1.5,
               paddingHorizontal: Spacing * 2,
-              width: "48%",
+              width: "35%",
               borderRadius: Spacing,
               shadowColor: Colors.primary,
               shadowOffset: {
@@ -128,12 +128,12 @@ const Again: React.FC<Props> = ({ navigation: { navigate }, route }) =>{
           {/* Botón "No" */}
           <TouchableOpacity
             onPress={() =>{ 
-              updateScore(score.correct, score.incorrect, score.achievements, score.scoreToday)
-              navigate("EstadisticasJuego1")}}
+              updateScore(score.correct, score.incorrect, score.achievements, score.scoreToday, null, null)
+              navigate("Main");}}
             style={{
               paddingVertical: Spacing * 1.5,
               paddingHorizontal: Spacing * 2,
-              width: "48%",
+              width: "35%",
               borderRadius: Spacing,
               shadowOffset: {
                 width: 0,
@@ -155,19 +155,6 @@ const Again: React.FC<Props> = ({ navigation: { navigate }, route }) =>{
             </Text>
           </TouchableOpacity>
         </View>
-
-        <Text
-          style={{
-            fontSize: FontSize.large,
-            color: Colors.primary,
-            fontFamily: Fonts["Roboto-Bold"],
-            textAlign: "center",
-            paddingTop: Spacing,
-            paddingBottom: Spacing * 4,
-          }}
-        >
-          Puntaje actual: {score.correct}
-        </Text>
       </View>
     </ScrollView>
   );

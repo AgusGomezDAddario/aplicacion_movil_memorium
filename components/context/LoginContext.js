@@ -1,8 +1,12 @@
-import React, { createContext, useEffect, useState } from "react";
-import { signOut, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword,signInWithRedirect, signInWithCredential, GoogleAuthProvider } from "firebase/auth";
-import { auth, provider, provider2 } from "../firebase/config";
-import { getAuth, signInWithPopup, FacebookAuthProvider } from "firebase/auth";
-
+import firebase from 'firebase/app';
+import React, { createContext, useState, useEffect } from "react";
+import { auth, db } from "../firebase/config";
+import { 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  signOut 
+} from "firebase/auth";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 export const LoginContext = createContext();
 
@@ -11,93 +15,117 @@ export const LoginProvider = ({ children }) => {
     email: null,
     logged: false,
     uid: null,
-    creacion:null,
+    creacion: null,
+    name: null,
   });
 
   const [logueo, setLogueo] = useState(true);
 
-  const googleLogin = () => {
-    signInWithRedirect(auth, provider)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((error) => {
-        console.log(error);
+  const register = async (values) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+      const uid = userCredential.user.uid;
+      console.log("Usuario creado con UID:", uid);
+      
+      await setDoc(doc(db, "score", uid), {  // Asegúrate de que la colección sea "score"
+        name: values.name,
+        age: values.age,
+        dni: values.dni,
+        email: values.email,
+        creacion: new Date(),
       });
+      console.log("Datos adicionales guardados en Firestore");
+      
+      setUser({
+        email: values.email,
+        name: values.name,
+        logged: true,
+        uid: uid,
+        creacion: new Date(),
+      });
+    } catch (error) {
+      console.error("Registration Error:", error);
+      alert(`Error al registrar el usuario: ${error.message}`);
+    }
   };
 
-  const facebookLogin = () => {
-    signInWithRedirect(auth, provider2)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  const login = (values) => {
-    signInWithEmailAndPassword(auth, values.email, values.password)
-    .then(() => {
+  const login = async (values) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+  
+      // Fetch scoreData from Firestore using modular syntax
+      const userDocRef = doc(db, "users", userCredential.user.uid);
+      const userDoc = await getDoc(userDocRef);
+      const scoreData = userDoc.exists() ? userDoc.data() : null;
       setLogueo(true);
-    })
-      .catch((error) => {
-        console.log(error);
-        setLogueo(false);
+  
+      setUser({
+        email: userCredential.user.email,
+        name: scoreData ? scoreData.name : null,
+        logged: true,
+        uid: userCredential.user.uid,
+        creacion: userCredential.user.metadata.creationTime,
       });
+    } catch (error) {
+      console.error("Login Error:", error);
+      setLogueo(false);
+    }
   };
 
-  const register = (values) => {
-    createUserWithEmailAndPassword(auth, values.email, values.password)
-      .catch((error) => {
-        console.log(error.message);
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      setUser({
+        email: null,
+        name: null,
+        logged: false,
+        uid: null,
+        creacion: null,
       });
-  };
-
-  const logout = () => {
-    signOut(auth)
-      .then(() => {
-        setUser({
-          email: null,
-          logged: false,
-          uid: null,
-          creacion:null,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    } catch (error) {
+      console.error("Logout Error:", error);
+      alert("Error al cerrar sesión.");
+    }
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log(user);
+    const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
+      if (firebaseUser) {
+        // Obtener datos adicionales desde Firestore
+        const scoreDoc = await getDoc(doc(db, "score", firebaseUser.uid));
+        const scoreData = scoreDoc.exists() ? scoreDoc.data() : {};
+
         setUser({
-          email: user.email,
+          email: firebaseUser.email,
+          name: scoreData.name || null, // Establecer name desde Firestore
           logged: true,
-          uid: user.uid,
-          creacion: user.metadata.creationTime,
+          uid: firebaseUser.uid,
+          creacion: firebaseUser.metadata.creationTime, // Usar cadena de texto
         });
       } else {
-        logout();
+        setUser({
+          email: null,
+          name: null, // Reiniciar name
+          logged: false,
+          uid: null,
+          creacion: null,
+        });
       }
     });
-
     return () => unsubscribe();
   }, []);
 
   return (
     <LoginContext.Provider
-      value={{
-        user,
-        register,
-        login,
-        logout,
-        googleLogin,
-        facebookLogin,
-        logueo,
-      }}
+      value={{ user, register, login, logout, googleLogin: () => {}, facebookLogin: () => {}, logueo }}
     >
       {children}
     </LoginContext.Provider>

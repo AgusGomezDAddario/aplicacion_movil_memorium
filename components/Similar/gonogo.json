@@ -1,0 +1,128 @@
+{
+    "Oscuro": {
+        "claro": true,
+        "apagado": false,
+        "opaco": false,
+        "sombrio": false
+    },
+    "Claro": {
+        "oscuro": true,
+        "apagado": false,
+        "opaco": false,
+        "sombrio": false
+    },
+    "Apagado": {
+        "prendido": true,
+        "oscuro": false,
+        "tenue": false,
+        "palido": false
+    },
+    "Frío": {
+        "caliente": true,
+        "templado": false,
+        "fresco": false,
+        "helado": false
+    },
+    "Grande": {
+        "pequeño": true,
+        "alto": false,
+        "largo": false,
+        "gigante": false
+    },
+    "Rápido": {
+        "lento": true,
+        "veloz": false,
+        "pronto": false,
+        "ágil": false
+    },
+    "Feliz": {
+        "triste": true,
+        "alegre": false,
+        "contento": false,
+        "jubiloso": false
+    },
+    "Duro": {
+        "blando": true,
+        "firme": false,
+        "sólido": false,
+        "resistente": false
+    },
+    "Nuevo": {
+        "viejo": true,
+        "usado": false,
+        "reciente": false,
+        "moderno": false
+    },
+    "Corto": {
+        "largo": true,
+        "breve": false,
+        "pequeño": false,
+        "fugaz": false
+    },
+    "Limpio": {
+        "sucio": true,
+        "pulcro": false,
+        "ordenado": false,
+        "aseado": false
+    },
+    "Fuerte": {
+        "débil": true,
+        "robusto": false,
+        "potente": false,
+        "vigoroso": false
+    },
+    "Suave": {
+        "áspero": true,
+        "blando": false,
+        "liso": false,
+        "tierno": false
+    },
+    "Pesado": {
+        "ligero": true,
+        "denso": false,
+        "macizo": false,
+        "grueso": false
+    },
+    "Barato": {
+        "caro": true,
+        "económico": false,
+        "asequible": false,
+        "modesto": false
+    },
+    "Lento": {
+        "rápido": true,
+        "pausado": false,
+        "tardío": false,
+        "moroso": false
+    },
+    "Caliente": {
+        "frío": true,
+        "ardiente": false,
+        "tórrido": false,
+        "cálido": false
+    },
+    "Viejo": {
+        "nuevo": true,
+        "antiguo": false,
+        "vetusto": false,
+        "primitivo": false
+    },
+    "Alto": {
+        "bajo": true,
+        "elevado": false,
+        "grande": false,
+        "crecido": false
+    },
+    "Ancho": {
+        "estrecho": true,
+        "amplio": false,
+        "espacioso": false,
+        "holgado": false
+    },
+    "Sencillo": {
+        "complicado": true,
+        "simple": false,
+        "fácil": false,
+        "claro": false
+    }
+}

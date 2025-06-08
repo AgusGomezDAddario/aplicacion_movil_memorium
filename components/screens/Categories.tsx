@@ -22,7 +22,7 @@ import { ScoreContext } from "../context/ScoreContext";
 const { height } = Dimensions.get("window");
 const { width } = Dimensions.get("window");
 export var bandera: string;
-import { dropdownValue1 } from "./InstruccionesJuego1";
+import { dropdownValue1 } from "./MemoryGameInformation";
 import nivelesCat from "./../Similar/similar.json";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Categories">;
@@ -50,6 +50,8 @@ const CategoriesScreen: React.FC<Props> = ({ navigation: { navigate } }: Props) 
                 <View
                     style={{
                         marginVertical: Spacing * 3,
+                        alignSelf: "center", 
+                        width: "70%",
                     }}
                 >
 
