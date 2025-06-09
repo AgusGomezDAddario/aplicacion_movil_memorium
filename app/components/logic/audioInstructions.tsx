@@ -21,34 +21,34 @@ export const SoundComponent: React.FC<{ juego: string }> = ({ juego }) => {
       let sound;
       switch (juego) {
         case "memory_game":
-          sound = require("../../assets/audio/memory_game_intro.mp3");
+          sound = require("../../../assets/audio/memory_game_intro.mp3");
           break;
         case "numerium":
-          sound = require("../../assets/audio/numerium_intro.mp3");
+          sound = require("../../../assets/audio/numerium_intro.mp3");
           break;
         case "go_no_go":
-          sound = require("../../assets/audio/contrarium_intro.mp3");
+          sound = require("../../../assets/audio/contrarium_intro.mp3");
           break;
         case "orderium":
-          sound = require("../../assets/audio/orderium_intro.mp3");
+          sound = require("../../../assets/audio/orderium_intro.mp3");
           break;
         case "abecedarium":
-          sound = require("../../assets/audio/abecedarium_intro.mp3");
+          sound = require("../../../assets/audio/abecedarium_intro.mp3");
           break;
         case "informacion_memory_game":
-          sound = require("../../assets/audio/memory_game_conozca.mp3");
+          sound = require("../../../assets/audio/memory_game_conozca.mp3");
           break;
         case "informacion_numerium":
-          sound = require("../../assets/audio/numerium_conozca.mp3");
+          sound = require("../../../assets/audio/numerium_conozca.mp3");
           break;
         case "informacion_go_no_go":
-          sound = require("../../assets/audio/contrarium_conozca.mp3");
+          sound = require("../../../assets/audio/contrarium_conozca.mp3");
           break;
         case "informacion_orderium":
-          sound = require("../../assets/audio/orderium_conozca.mp3");
+          sound = require("../../../assets/audio/orderium_conozca.mp3");
           break;
         case "informacion_abecedarium":
-          sound = require("../../assets/audio/abecedarium_conozca.mp3");
+          sound = require("../../../assets/audio/abecedarium_conozca.mp3");
           break;
         default:
           throw new Error("Juego no soportado");

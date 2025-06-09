@@ -17,7 +17,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../../types";
+import { RootStackParamList } from "../../types";
 import Spacing from "../constants/Spacing";
 import FontSize from "../constants/FontSize";
 import Colors from "../constants/Color";
@@ -26,15 +26,15 @@ import AppTextInput from "../AppTextInput";
 import { LoginContext } from "../context/LoginContext";
 import { ScoreContext } from "../context/ScoreContext";
 import Color from "../constants/Color";
-import image1 from "./../../assets/images/achievements/puntosDiarios/1stToday.png";
-import image2 from "./../../assets/images/achievements/puntosDiarios/10thToday.png";
-import image3 from "./../../assets/images/achievements/puntosDiarios/25thToday.png";
-import image4 from "./../../assets/images/achievements/puntosDiarios/50thToday.png";
-import image5 from "./../../assets/images/achievements/puntosTotales/50Total.png";
-import image6 from "./../../assets/images/achievements/puntosTotales/150Total.png";
-import image7 from "./../../assets/images/achievements/puntosTotales/500Total.png";
-import image8 from "./../../assets/images/achievements/puntosTotales/1000Total.png";
-import placeHolder from "./../../assets/images/achievements/placeHolder.png";
+import image1 from "../../../assets/images/achievements/puntosDiarios/1stToday.png";
+import image2 from "../../../assets/images/achievements/puntosDiarios/10thToday.png";
+import image3 from "../../../assets/images/achievements/puntosDiarios/25thToday.png";
+import image4 from "../../../assets/images/achievements/puntosDiarios/50thToday.png";
+import image5 from "../../../assets/images/achievements/puntosTotales/50Total.png";
+import image6 from "../../../assets/images/achievements/puntosTotales/150Total.png";
+import image7 from "../../../assets/images/achievements/puntosTotales/500Total.png";
+import image8 from "../../../assets/images/achievements/puntosTotales/1000Total.png";
+import placeHolder from "../../../assets/images/achievements/placeHolder.png";
 
 const { height, width } = Dimensions.get("window");
 type Props = NativeStackScreenProps<RootStackParamList, "UserProfile">;
@@ -65,7 +65,7 @@ function UserProfileScreen({ navigation: { navigate } }: Props) {
             alignSelf: "center", 
           }}
           resizeMode="contain"
-          source={require("./../../assets/images/user.png")}
+          source={require("../../../assets/images/user.png")}
         />
 
         <View style={styles.content}>

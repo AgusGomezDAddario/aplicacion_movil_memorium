@@ -68,7 +68,7 @@ const MemoryGame: React.FC = ({ navigation: { navigate } }: Props) => {
   async function playSound(respuesta: String) {
     console.log('Loading Sound');
     const { sound: audioSound } = await Audio.Sound.createAsync(
-      respuesta === "correcta" ? require('./../../assets/audio/correct-ding.mp3') : require('./../../assets/audio/error-fallo-1.mp3')
+      respuesta === "correcta" ? require('../../../assets/audio/correct-ding.mp3') : require('../../../assets/audio/error-fallo-1.mp3')
     );
     setSound(audioSound);
 
