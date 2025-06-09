@@ -4,6 +4,7 @@
     "slug": "TpFinal",
     "version": "1.0.0",
     "orientation": "portrait",
+    "scheme": "tp-final",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -24,10 +25,19 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "output": "static"
     },
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "plugins": [
-      "expo-asset"
-    ]
+      "expo-asset",
+      "expo-router"
+    ],
+    "main": "expo-router/entry" // ¡Añade esta línea! O asegúrate de que esté configurada así.
   }
 }
