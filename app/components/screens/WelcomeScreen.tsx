@@ -110,7 +110,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
             }}
           >
             <Image
-              source={require("./../../assets/images/log-PhotoRoom.png-PhotoRoom.png")}
+              source={require("../../../assets/images/log-PhotoRoom.png-PhotoRoom.png")}
               style={{
                 width: 400,
                 height: height / 2,
